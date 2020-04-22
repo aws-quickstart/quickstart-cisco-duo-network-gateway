@@ -85,6 +85,58 @@ Parameters:
     ConstraintDescription: Must be a valid IP range in x.x.x.x/x notation
     Description: The CIDR IP range of VPC
     Type: String
+  AuthToken: 
+    AllowedPattern: '[a-zA-Z0-9]*'
+    Description: The Auth Token for the redis cluster
+    Type: String
+    NoEcho: true
+    MinLength: 16
+    MaxLength: 128
+    ConstraintDescription: Must be 16-128 characters including atleast three of uppercase, lowercase, nonalphanumeric, and digits
+    Default: 'DuoRedisAuthToken'
+  RedisCacheNodeType:
+    Type: String
+    Default: cache.t3.medium
+    AllowedValues: 
+      - cache.m5.large 
+      - cache.m5.xlarge
+      - cache.m5.2xlarge
+      - cache.m5.4xlarge
+      - cache.m5.12xlarge
+      - cache.m5.24xlarge 
+      - cache.c1.xlarge
+      - cache.t3.micro
+      - cache.t3.small
+      - cache.t3.medium
+    Description: Enter one of the allowed values
+  RedisEngineVersion:
+    Type: String
+    Default: 3.2.6
+    AllowedValues: 
+      - 3.2.6
+    Description: Redis replication group version
+  NumShards:
+    Description: 'Number of shards in the cluster.'
+    Type: 'Number'
+    Default: 1
+    MinValue: 1
+    MaxValue: 250
+  NumReplicas:
+    Description: 'Number of replicas per shard.'
+    Type: 'Number'
+    Default: 1
+    MinValue: 0
+    MaxValue: 5
+  SnapshotName:
+    Description: 'Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).'
+    Type: 'String'
+    Default: ''
+  SnapshotRetentionLimit:
+    Description: 'The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).'
+    Type: Number
+    Default: 35
+    MinValue: 0
+    MaxValue: 35
 Mappings:
   AWSAMIRegionMap:
     AMI:
@@ -121,6 +173,7 @@ Conditions:
   GovCloudCondition: !Equals 
     - !Ref 'AWS::Region'
     - us-gov-west-1
+  HasSnapshotName: !Not [!Equals [!Ref SnapshotName, '']]
 Resources:
   NotificationTopic:
     Type: 'AWS::SNS::Topic'
@@ -180,7 +233,7 @@ Resources:
         - US1604HVM
       InstanceType: !Ref InstanceType
       SecurityGroups:
-        - !Ref WebServerSecurityGroup
+        - !Ref LoadBalancerSecurityGroup
       UserData: !Base64 
         'Fn::Sub':
           - >
@@ -295,7 +348,7 @@ Resources:
         - !Ref PublicSubnet1ID
         - !Ref PublicSubnet2ID
       SecurityGroups:
-        - !Ref WebServerSecurityGroup
+        - !Ref LoadBalancerSecurityGroup
       Tags:
         - Key: name
           Value:  WebServer ASG Instance
@@ -318,16 +371,92 @@ Resources:
       Protocol: HTTP
       UnhealthyThresholdCount: 5
       VpcId: !Ref VPCID
-  WebServerSecurityGroup:
+  LoadBalancerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: Enable HTTP from the load balancer only
+      GroupDescription: Enable HTTP and HTTPS from the load balancer only
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: !Ref WebserverCIDR
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: !Ref WebserverCIDR
       VpcId: !Ref VPCID
+  NetworkGatewaySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP and HTTPS from the load balancer only
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: !Ref WebserverCIDR
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: !Ref WebserverCIDR
+      VpcId: !Ref VPCID
+  InternalServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable traffic from/to web servers and ssh server you want to protect behind Duo Netowork Gateway
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: !Ref WebserverCIDR
+      VpcId: !Ref VPCID
+  RedisServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Allows inbound connection to redis traffic port
+      VpcId: !Ref VPCID
+  RedisServerSecurityGroupIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !GetAtt RedisServerSecurityGroup.GroupId
+      IpProtocol: tcp
+      FromPort: 6379
+      ToPort: 6379
+      CidrIp: !Ref WebserverCIDR
+  RedisReplicationGroup:
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      AtRestEncryptionEnabled: true
+      AuthToken: !Ref AuthToken
+      AutomaticFailoverEnabled: true
+      CacheNodeType: !Ref RedisCacheNodeType
+      CacheParameterGroupName: 'default.redis3.2'
+      CacheSubnetGroupName: !Ref CacheSubnetGroupName
+      NumNodeGroups: !Ref NumShards
+      ReplicasPerNodeGroup: !Ref NumReplicas
+      Engine: redis
+      EngineVersion: !Ref RedisEngineVersion
+      ReplicationGroupDescription: 'Duo DNG Redis replication group'
+      SecurityGroupIds: 
+        - !Ref RedisServerSecurityGroup
+      PreferredMaintenanceWindow: 'sat:07:00-sat:08:00'
+      SnapshotName: !If [HasSnapshotName, !Ref SnapshotName, !Ref 'AWS::NoValue']
+      SnapshotRetentionLimit: !Ref SnapshotRetentionLimit
+      SnapshotWindow: '00:00-03:00'
+      Tags:
+        - Key: name
+          Value: Duo DNG Redis Replication Group 
+      TransitEncryptionEnabled: true
+    UpdatePolicy:
+      UseOnlineResharding: true
+  CacheSubnetGroupName:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      Description: Duo DNG Redis Subnet Group
+      SubnetIds:
+      - !Ref PrivateSubnet1ID
+      - !Ref PrivateSubnet2ID
 Outputs:
   URL:
     Description: The URL of WebServer
@@ -337,4 +466,23 @@ Outputs:
         - !GetAtt 
           - ApplicationLoadBalancer
           - DNSName
-
+  RedisClusterName:
+    Description: 'The name of the cluster'
+    Value: !Ref RedisReplicationGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-ClusterName'
+  PrimaryEndPointAddress:
+    Description: 'The DNS address of the primary read-write cache node.'
+    Value: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Address'
+    Export:
+      Name: !Sub '${AWS::StackName}-PrimaryEndPointAddress'
+  PrimaryEndPointPort:
+    Description: 'The port that the primary read-write cache engine is listening on.'
+    Value: !GetAtt 'RedisReplicationGroup.PrimaryEndPoint.Port'
+    Export:
+      Name: !Sub '${AWS::StackName}-PrimaryEndPointPort'
+  RedisAuthToken:
+    Description: Redis Auth Token
+    Value: !Ref AuthToken
+    Export:
+      Name: !Sub '${AWS::StackName}-AuthToken'
