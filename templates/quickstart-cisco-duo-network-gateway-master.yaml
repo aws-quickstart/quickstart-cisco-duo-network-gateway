@@ -135,6 +135,27 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCID
+  RedisServerStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/redis-cluster.yaml
+      Parameters:
+        InstanceType: !Ref InstanceType
+        PrivateSubnet1ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PrivateSubnet1AID
+        PrivateSubnet2ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PrivateSubnet2AID
+        PortalServerCIDR:
+          Ref: PortalServerCIDR
+        VPCID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.VPCID
   PortalServerStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -174,6 +195,35 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCCIDR
+        RedisHost: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointAddress
+        RedisPort: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointPort
+        RedistAuth: !GetAtt RedisServerStack.Ouptuts.RedisAuthToken
+  PortalServerStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/admin-server.yaml
+      Parameters:
+        AdminServerInstanceType: !Ref InstanceType
+        AvailabilityZone: !Ref AvailabilityZone
+        KeyPairName: !Ref KeyPairName
+        PrivateSubnet1ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PrivateSubnet1AID
+        RemoteAccessCIDR:
+          Ref: VPCCIDR
+        VPCID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.VPCID
+        VPCCIDR:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.VPCCIDR
+        RedisHost: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointAddress
+        RedisPort: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointPort
+        RedistAuth: !GetAtt RedisServerStack.Ouptuts.RedisAuthToken
 Outputs:
   WebURL:
     Description: "The web server URL"
