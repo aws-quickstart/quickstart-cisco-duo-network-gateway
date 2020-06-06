@@ -9,52 +9,45 @@ Parameters:
   AdminServerInstanceType:
     Description: EC2 instance type
     Type: String
-    Default: t2.medium
     AllowedValues:
-      - t2.micro
-      - t2.small
-      - t2.medium
-      - t2.large
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+      - c5.large
+      - c5.xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - r5.large
+      - r5.xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r5.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
-  AvailabilityZone:
-    Type: String
-    Default: 'us-east-1b'
   QSS3BucketName:
     AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
     ConstraintDescription: >-
       Quick Start bucket name can include numbers, lowercase letters, uppercase
       letters, and hyphens (-). It cannot start or end with a hyphen (-).
-    Default: aws-quickstart
     Description: >-
       S3 bucket name for the Quick Start assets. Quick Start bucket name can
       include numbers, lowercase letters, uppercase letters, and hyphens (-). It
       cannot start or end with a hyphen (-).
     Type: String
-  QSS3BucketRegion:
-    Default: 'us-east-1'
-    Description: The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.
-    Type: String
+  #QSS3BucketRegion:
+  #  Description: The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.
+  #  Type: String
   QSS3KeyPrefix:
     AllowedPattern: '^[0-9a-zA-Z-/]*$'
     ConstraintDescription: >-
       Quick Start key prefix can include numbers, lowercase letters, uppercase
       letters, hyphens (-), and forward slash (/).
-    Default: quickstart-cisco-duo-network-gateway/
     Description: >-
       S3 key prefix for the Quick Start assets. Quick Start key prefix can
       include numbers, lowercase letters, uppercase letters, hyphens (-), and
@@ -63,7 +56,6 @@ Parameters:
   KeyPairName:
     Type: 'AWS::EC2::KeyPair::KeyName'
     ConstraintDescription: Name of an existing EC2 KeyPair.
-    Default: sshvans
   RemoteAccessCIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
@@ -85,40 +77,41 @@ Parameters:
   RedisAuth:
     Description: Redis AUTH token
     Type: String
-  
-
-Mappings:
-  AWSAMIRegionMap:
-    AMI:
-      US1604HVM: ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20180405
-    ap-northeast-1:
-      US1604HVM: ami-60a4b21c
-    ap-northeast-2:
-      US1604HVM: ami-633d920d
-    ap-south-1:
-      US1604HVM: ami-dba580b4
-    ap-southeast-1:
-      US1604HVM: ami-82c9ecfe
-    ap-southeast-2:
-      US1604HVM: ami-2b12dc49
-    ca-central-1:
-      US1604HVM: ami-9d7afcf9
-    eu-central-1:
-      US1604HVM: ami-cd491726
-    eu-west-1:
-      US1604HVM: ami-74e6b80d
-    eu-west-2:
-      US1604HVM: ami-506e8f37
-    sa-east-1:
-      US1604HVM: ami-5782d43b
-    us-east-1:
-      US1604HVM: ami-6dfe5010
-    us-east-2:
-      US1604HVM: ami-e82a1a8d
-    us-west-1:
-      US1604HVM: ami-493f2f29
-    us-west-2:
-      US1604HVM: ami-ca89eeb2
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+#Mappings:
+#  AWSAMIRegionMap:
+#    AMI:
+#      US1604HVM: ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-20180405
+#    ap-northeast-1:
+#      US1604HVM: ami-60a4b21c
+#    ap-northeast-2:
+#      US1604HVM: ami-633d920d
+#    ap-south-1:
+#      US1604HVM: ami-dba580b4
+#    ap-southeast-1:
+#      US1604HVM: ami-82c9ecfe
+#    ap-southeast-2:
+#      US1604HVM: ami-2b12dc49
+#    ca-central-1:
+#      US1604HVM: ami-9d7afcf9
+#    eu-central-1:
+#      US1604HVM: ami-cd491726
+#    eu-west-1:
+#      US1604HVM: ami-74e6b80d
+#    eu-west-2:
+#      US1604HVM: ami-506e8f37
+#    sa-east-1:
+#      US1604HVM: ami-5782d43b
+#    us-east-1:
+#      US1604HVM: ami-6dfe5010
+#    us-east-2:
+#      US1604HVM: ami-e82a1a8d
+#    us-west-1:
+#      US1604HVM: ami-493f2f29
+#    us-west-2:
+#      US1604HVM: ami-ca89eeb2
 Conditions:
   UsingDefaultBucket: !Equals
     - !Ref QSS3BucketName
@@ -131,7 +124,7 @@ Resources:
         configSets:
           bootstrap:
             - export-redis-env-variables
-            - config-docker
+            #- config-docker
             - install-docker
             - config-docker-compose
             - add-user
@@ -147,18 +140,23 @@ Resources:
             3_export_redis_auth:
               command: !Sub echo export REDIS_AUTH=${RedisAuth} >> .profile
               cwd: "~"
-        config-docker:
-          commands:
-            add_gpg_key:
-              command: wget -O- "https://download.docker.com/linux/ubuntu/gpg" | sudo apt-key add -
-            add_repo:
-              command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            update_repo:
-              command: sudo apt-get update
+        #config-docker:
+        #  commands:
+        #    add_gpg_key:
+        #      command: wget -O- "https://download.docker.com/linux/ubuntu/gpg" | sudo apt-key add -
+        #    add_repo:
+        #      command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        #    update_repo:
+        #      command: sudo apt-get update
         install-docker:
           packages:
-            apt:
-              docker-ce: []
+            yum:
+              docker: []
+          commands:
+            1_enable_docker_service:
+              command: sudo systemctl enable docker.service
+            2_start_docker_service:
+              command: sudo systemctl start docker
         config-docker-compose:
           commands:
             1_download-docker-compose:
@@ -181,10 +179,11 @@ Resources:
               cwd: "~"
     Properties:
       IamInstanceProfile: !Ref AdminServerInstanceProfile
-      ImageId: !FindInMap 
-        - AWSAMIRegionMap
-        - !Ref 'AWS::Region'
-        - US1604HVM
+      ImageId: !Ref LatestAmiId
+        #!FindInMap 
+        #- AWSAMIRegionMap
+        #- !Ref 'AWS::Region'
+        #- US1604HVM
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -208,7 +207,7 @@ Resources:
           !Sub |
             #!/bin/bash -xe
 
-            apt-get install -y git
+            sudo yum install -y git
 
             #cfn signaling functions
             
@@ -236,6 +235,9 @@ Resources:
             cfn-init -v --stack '${AWS::StackName}' --resource AdminServerInstance --configsets bootstrap --region ${AWS::Region} || cfn_fail
             
             [ $(qs_status) == 0 ] && cfn_success || cfn_fail 
+      Tags:
+        - Key: Name
+          Value: !Sub AdminServer-${AWS::StackName}
     CreationPolicy:
       ResourceSignal:
         Timeout: PT5M
@@ -262,6 +264,7 @@ Resources:
             Effect: Allow
         Version: 2012-10-17
       ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore'
         - !Sub 'arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy'
   
   AdminServerInstancePolicy:

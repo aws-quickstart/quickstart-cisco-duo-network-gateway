@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: >-
    Redis cluster for Admin server and portal servers
 Parameters:
-  PortalServerCIDR:
+  RemoteAccessCIDR:
     AllowedPattern: >-
       ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
@@ -17,58 +17,28 @@ Parameters:
   VPCID:
     Description: 'ID of the VPC (e.g., vpc-0343606e)'
     Type: 'AWS::EC2::VPC::Id'
-  AuthToken: 
-    AllowedPattern: '[a-zA-Z0-9]*'
+  RedisAuth: 
     Description: The Auth Token for the redis cluster
     Type: String
-    NoEcho: true
-    MinLength: 16
-    MaxLength: 128
     ConstraintDescription: Must be 16-128 characters including atleast three of uppercase, lowercase, nonalphanumeric, and digits
-    Default: 'DuoRedisAuthToken'
   RedisCacheNodeType:
     Type: String
-    Default: cache.t3.medium
-    AllowedValues: 
-      - cache.m5.large 
-      - cache.m5.xlarge
-      - cache.m5.2xlarge
-      - cache.m5.4xlarge
-      - cache.m5.12xlarge
-      - cache.m5.24xlarge 
-      - cache.c1.xlarge
-      - cache.t3.micro
-      - cache.t3.small
-      - cache.t3.medium
     Description: Enter one of the allowed values
   RedisEngineVersion:
     Type: String
-    Default: 3.2.6
-    AllowedValues: 
-      - 3.2.6
     Description: Redis replication group version
   NumShards:
     Description: 'Number of shards in the cluster.'
     Type: 'Number'
-    Default: 1
-    MinValue: 1
-    MaxValue: 250
   NumReplicas:
     Description: 'Number of replicas per shard.'
     Type: 'Number'
-    Default: 1
-    MinValue: 0
-    MaxValue: 5
   SnapshotName:
     Description: 'Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).'
     Type: 'String'
-    Default: ''
   SnapshotRetentionLimit:
     Description: 'The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).'
     Type: Number
-    Default: 35
-    MinValue: 0
-    MaxValue: 35
 Conditions:
   HasSnapshotName: !Not [!Equals [!Ref SnapshotName, '']]
 Resources:
@@ -84,14 +54,14 @@ Resources:
       IpProtocol: tcp
       FromPort: 6379
       ToPort: 6379
-      CidrIp: !Ref PortalServerCIDR
+      CidrIp: !Ref RemoteAccessCIDR
   RedisReplicationGroup:
     DeletionPolicy: Snapshot
     UpdateReplacePolicy: Snapshot
     Type: 'AWS::ElastiCache::ReplicationGroup'
     Properties:
       AtRestEncryptionEnabled: true
-      AuthToken: !Ref AuthToken
+      AuthToken: !Ref RedisAuth
       AutomaticFailoverEnabled: true
       CacheNodeType: !Ref RedisCacheNodeType
       CacheParameterGroupName: 'default.redis3.2'
@@ -138,6 +108,6 @@ Outputs:
       Name: !Sub '${AWS::StackName}-PrimaryEndPointPort'
   RedisAuthToken:
     Description: Redis Auth Token
-    Value: !Ref AuthToken
+    Value: !Ref RedisAuth
     Export:
-      Name: !Sub '${AWS::StackName}-AuthToken'
+      Name: !Sub '${AWS::StackName}-RedisAuth'
