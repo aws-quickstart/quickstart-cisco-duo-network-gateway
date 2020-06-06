@@ -11,31 +11,54 @@ Parameters:
       two Availability Zones are used for this deployment, and the logical order of
       your selections is preserved.
     Type: List<AWS::EC2::AvailabilityZone::Name>
-  InstanceType:
-    AllowedValues:
-      - t2.micro
-      - t2.small
-      - t2.medium
-      - t2.large
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-    ConstraintDescription: "must be a valid EC2 instance type."
-    Default: t2.medium
-    Description: "EC2 instance type"
+  PortalServerInstanceType:
+    Description: Portal Server EC2 instance type
     Type: String
+    Default: t3.medium
+    AllowedValues:
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+      - c5.xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - r5.large
+      - r5.xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r5.8xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
+  AdminServerInstanceType:
+    Description: Admin Server EC2 instance type
+    Type: String
+    Default: t3.medium
+    AllowedValues:
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
+      - m5.large
+      - m5.xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+      - c5.large
+      - c5.xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - r5.large
+      - r5.xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
   KeyPairName:
     ConstraintDescription: "Name of an existing EC2 KeyPair."
     Type: "AWS::EC2::KeyPair::KeyName"
@@ -80,25 +103,95 @@ Parameters:
   QSS3KeyPrefix:
     AllowedPattern: "^[0-9a-zA-Z-/]*$"
     ConstraintDescription: "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
-    Default: implementing/
+    Default: quickstart-cisco-duo-network-gateway/
     Description: "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/)."
     Type: String
-  PortalServerCIDR:
-    AllowedPattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$"
-    ConstraintDescription: "CIDR block parameter must be in the form x.x.x.x/x"
-    Description: "Allowed CIDR block for  PortalServer access"
+  QSS3BucketRegion:
+    Default: us-east-1
+    Description: >-
+      The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted.
+      When using your own bucket, you must specify this value.
     Type: String
   RemoteAccessCIDR:
     AllowedPattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$"
     ConstraintDescription: "CIDR block parameter must be in the form x.x.x.x/x"
     Description: "Allowed CIDR block for external SSH access"
     Type: String
+  AuthToken: 
+    AllowedPattern: '[a-zA-Z0-9]*'
+    Description: The Auth Token for the redis cluster
+    Type: String
+    NoEcho: true
+    MinLength: 16
+    MaxLength: 128
+    ConstraintDescription: Must be 16-128 characters including atleast three of uppercase, lowercase, nonalphanumeric, and digits
+    Default: 'DuoRedisAuthToken'
+  RedisCacheNodeType:
+    Type: String
+    Default: cache.t3.medium
+    AllowedValues: 
+      - cache.m5.large 
+      - cache.m5.xlarge
+      - cache.m5.2xlarge
+      - cache.m5.4xlarge
+      - cache.m5.12xlarge
+      - cache.m5.24xlarge 
+      - cache.c1.xlarge
+      - cache.t3.micro
+      - cache.t3.small
+      - cache.t3.medium
+    Description: Enter one of the allowed values
+  RedisEngineVersion:
+    Type: String
+    Default: 3.2.6
+    AllowedValues: 
+      - 3.2.6
+    Description: Redis replication group version
+  NumShards:
+    Description: 'Number of shards in the cluster.'
+    Type: 'Number'
+    Default: 1
+    MinValue: 1
+    MaxValue: 250
+  NumReplicas:
+    Description: 'Number of replicas per shard.'
+    Type: 'Number'
+    Default: 1
+    MinValue: 0
+    MaxValue: 5
+  SnapshotName:
+    Description: 'Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).'
+    Type: 'String'
+    Default: ''
+  SnapshotRetentionLimit:
+    Description: 'The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).'
+    Type: Number
+    Default: 35
+    MinValue: 0
+    MaxValue: 35
+  PortalServerName:
+    Default: 'PortalServer'
+    Description: The value used for the name tag of the portal server
+    Type: String
+Conditions:
+  UsingDefaultBucket: !Equals 
+    - !Ref QSS3BucketName
+    - aws-quickstart
 Resources:
   VPCStack:
     Type: 'AWS::CloudFormation::Stack'
     Properties:
-      TemplateURL: !Sub >-
-        https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template
+      TemplateURL: !Sub
+        - >-
+          https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template.yaml
+        - S3Region: !If 
+            - UsingDefaultBucket
+            - !Ref 'AWS::Region'
+            - !Ref QSS3BucketRegion
+          S3Bucket: !If 
+            - UsingDefaultBucket
+            - !Sub '${QSS3BucketName}-${AWS::Region}'
+            - !Ref QSS3BucketName
       Parameters:
         AvailabilityZones: !Join 
           - ','
@@ -110,38 +203,46 @@ Resources:
         PublicSubnet1CIDR: !Ref PublicSubnet1CIDR
         PublicSubnet2CIDR: !Ref PublicSubnet2CIDR
         VPCCIDR: !Ref VPCCIDR
-  BastionStack:
-    Type: 'AWS::CloudFormation::Stack'
-    Properties:
-      TemplateURL: !Sub >-
-        https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template
-      Parameters:
-        KeyPairName: !Ref KeyPairName
-        RemoteAccessCIDR: !Ref RemoteAccessCIDR
-        QSS3BucketName:
-          Ref: QSS3BucketName
-        QSS3KeyPrefix: !Sub
-          - "${QSS3KeyPrefix}submodules/quickstart-linux-bastion/"
-          - QSS3KeyPrefix: !Ref QSS3KeyPrefix
-        PublicSubnet1ID: 
-          Fn::GetAtt:
-          - VPCStack
-          - Outputs.PublicSubnet1ID
-        PublicSubnet2ID: 
-          Fn::GetAtt:
-          - VPCStack
-          - Outputs.PublicSubnet2ID
-        VPCID:
-          Fn::GetAtt:
-          - VPCStack
-          - Outputs.VPCID
+#  BastionStack:
+#    Type: 'AWS::CloudFormation::Stack'
+#    Properties:
+#      TemplateURL: !Sub >-
+#        https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template
+#      Parameters:
+#        KeyPairName: !Ref KeyPairName
+#        RemoteAccessCIDR: !Ref RemoteAccessCIDR
+#        QSS3BucketName:
+#          Ref: QSS3BucketName
+#        QSS3KeyPrefix: !Sub
+#          - "${QSS3KeyPrefix}submodules/quickstart-linux-bastion/"
+#          - QSS3KeyPrefix: !Ref QSS3KeyPrefix
+#        PublicSubnet1ID: 
+#          Fn::GetAtt:
+#          - VPCStack
+#          - Outputs.PublicSubnet1ID
+#        PublicSubnet2ID: 
+#          Fn::GetAtt:
+#          - VPCStack
+#          - Outputs.PublicSubnet2ID
+#        VPCID:
+#          Fn::GetAtt:
+#          - VPCStack
+#          - Outputs.VPCID
   RedisServerStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL:
-        Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/redis-cluster.yaml
+      TemplateURL: !Sub
+        - >-
+          https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/redis-cluster.yaml
+        - S3Region: !If 
+            - UsingDefaultBucket
+            - !Ref 'AWS::Region'
+            - !Ref QSS3BucketRegion
+          S3Bucket: !If 
+            - UsingDefaultBucket
+            - !Sub '${QSS3BucketName}-${AWS::Region}'
+            - !Ref QSS3BucketName
       Parameters:
-        InstanceType: !Ref InstanceType
         PrivateSubnet1ID:
           Fn::GetAtt:
           - VPCStack
@@ -150,20 +251,36 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.PrivateSubnet2AID
-        PortalServerCIDR:
-          Ref: PortalServerCIDR
+        RemoteAccessCIDR:
+          Ref: VPCCIDR
         VPCID:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCID
+        RedisAuth: !Ref AuthToken 
+        RedisCacheNodeType: !Ref RedisCacheNodeType
+        RedisEngineVersion: !Ref RedisEngineVersion
+        NumShards: !Ref NumShards
+        NumReplicas: !Ref NumReplicas
+        SnapshotName: !Ref SnapshotName
+        SnapshotRetentionLimit: !Ref SnapshotRetentionLimit
   PortalServerStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL:
-        Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
+      TemplateURL: !Sub
+        - >-
+          https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
+        - S3Region: !If 
+            - UsingDefaultBucket
+            - !Ref 'AWS::Region'
+            - !Ref QSS3BucketRegion
+          S3Bucket: !If 
+            - UsingDefaultBucket
+            - !Sub '${QSS3BucketName}-${AWS::Region}'
+            - !Ref QSS3BucketName
       Parameters:
         EmailAddress: !Ref EmailAddress
-        InstanceType: !Ref InstanceType
+        PortalServerInstanceType: !Ref PortalServerInstanceType
         KeyPairName: !Ref KeyPairName
         PrivateSubnet1ID:
           Fn::GetAtt:
@@ -185,8 +302,6 @@ Resources:
           Ref: QSS3BucketName
         QSS3KeyPrefix:
           Ref: QSS3KeyPrefix
-        PortalServerCIDR:
-          Ref: PortalServerCIDR
         VPCID:
           Fn::GetAtt:
           - VPCStack
@@ -195,35 +310,50 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCCIDR
-        RedisHost: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointAddress
-        RedisPort: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointPort
-        RedistAuth: !GetAtt RedisServerStack.Ouptuts.RedisAuthToken
-  PortalServerStack:
+        RemoteAccessCIDR:
+          Ref: RemoteAccessCIDR
+        RedisHost: !GetAtt RedisServerStack.Outputs.PrimaryEndPointAddress
+        RedisPort: !GetAtt RedisServerStack.Outputs.PrimaryEndPointPort
+        RedisAuth: !GetAtt RedisServerStack.Outputs.RedisAuthToken
+        PortalServerName: !Ref PortalServerName
+  AdminServerStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL:
-        Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/admin-server.yaml
+      TemplateURL: !Sub
+        - >-
+          https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/admin-server.yaml
+        - S3Region: !If 
+            - UsingDefaultBucket
+            - !Ref 'AWS::Region'
+            - !Ref QSS3BucketRegion
+          S3Bucket: !If 
+            - UsingDefaultBucket
+            - !Sub '${QSS3BucketName}-${AWS::Region}'
+            - !Ref QSS3BucketName
       Parameters:
-        AdminServerInstanceType: !Ref InstanceType
-        AvailabilityZone: !Ref AvailabilityZone
+        AdminServerInstanceType: !Ref AdminServerInstanceType
         KeyPairName: !Ref KeyPairName
+        QSS3BucketName:
+          Ref: QSS3BucketName
+        QSS3KeyPrefix:
+          Ref: QSS3KeyPrefix
         PrivateSubnet1ID:
           Fn::GetAtt:
           - VPCStack
           - Outputs.PrivateSubnet1AID
         RemoteAccessCIDR:
-          Ref: VPCCIDR
+          Ref: RemoteAccessCIDR
         VPCID:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCID
-        VPCCIDR:
-          Fn::GetAtt:
-          - VPCStack
-          - Outputs.VPCCIDR
-        RedisHost: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointAddress
-        RedisPort: !GetAtt RedisServerStack.Ouptuts.PrimaryEndPointPort
-        RedistAuth: !GetAtt RedisServerStack.Ouptuts.RedisAuthToken
+        #VPCCIDR:
+        #  Fn::GetAtt:
+        #  - VPCStack
+        #  - Outputs.VPCCIDR
+        RedisHost: !GetAtt RedisServerStack.Outputs.PrimaryEndPointAddress
+        RedisPort: !GetAtt RedisServerStack.Outputs.PrimaryEndPointPort
+        RedisAuth: !GetAtt RedisServerStack.Outputs.RedisAuthToken
 Outputs:
   WebURL:
     Description: "The web server URL"

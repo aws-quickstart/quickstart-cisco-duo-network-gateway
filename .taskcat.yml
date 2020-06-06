@@ -3,30 +3,83 @@ project:
   owner: quickstart-eng@amazon.com
   regions:
   - us-east-1
-  - us-east-2
-  - us-west-2
-  - sa-east-1
-  - eu-central-1
-  - eu-west-1
-  - eu-west-2
-  - eu-west-3
-  - ap-northeast-1
-  - ap-southeast-1
-  - ap-southeast-2
-  parameters:
-    QSS3BucketName: $[taskcat_autobucket]
-    QSS3BucketRegion: $[taskcat_current_region]
-  s3_bucket: tcat-quickstart-cisco-duo-neth2un0ogu
 tests:
-  test-adminserver:
-    template: templates/admin-server.yaml
+   test-full:
+    template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
+    s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
     parameters:
-      PrivateSubnet1ID: subnet-3d5ee010
-      AvailabilityZone: us-east-1b
-      RemoteAccessCIDR: 10.0.0.0/16 
-      VPCID: vpc-223ac744
-      RedisHost: dngcluster.abc1.0001.usw2.cache.amazonaws.com
+      QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
+      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      RemoteAccessCIDR: "10.0.0.0/16"
+      AvailabilityZones: $[taskcat_getaz_2]
+      RedisAuth: redis-auth-token
+      RedisCacheNodeType: cache.t3.medium
+      RedisEngineVersion: 3.2.6
+      NumShards: 1
+      NumReplicas: 1
+      SnapshotName: ''
+      SnapshotRetentionLimit: 35
+      AdminServerInstanceType: c5.large
+      PortalServerInstanceType: c5.xlarge
+      PortalServerName: PortalServer
       RedisPort: 6379
       RedisAuth: redis-auth-token
+      EmailAddress: muffadalq@gmail.com
+   test-adminserver:
+    template: ./templates/admin-server.yaml
     regions:
-      - us-east-1
+    - us-east-1
+    parameters:
+      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      RemoteAccessCIDR: "10.0.0.0/16"
+      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
+      AdminServerInstanceType: c5.large
+      VPCID: vpc-0524c2ce1690c5bae
+      RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
+      RedisPort: 6379
+      RedisAuth: redis-auth-token
+      QSS3KeyPrefix: ''
+   test-portalserver-stack:
+    template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
+    regions:
+    - us-east-1
+    parameters:
+      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      EmailAddress: muffadalq@gmail.com
+      RemoteAccessCIDR: "10.0.0.0/16"
+      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
+      PrivateSubnet2ID: subnet-0ccdcfc9a51873602
+      PublicSubnet1ID: subnet-09bde8d094c068d03
+      PublicSubnet2ID: subnet-08487916f435b5912
+      QSS3KeyPrefix: ''
+      PortalServerInstanceType: c5.xlarge
+      VPCCIDR: "10.0.0.0/16"
+      VPCID: vpc-0524c2ce1690c5bae
+      RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
+      RedisPort: 6379
+      RedisAuth: redis-auth-token
+      PortalServerName: PortalServer
+   test-redis-stack:
+    template: ./templates/redis-cluster.yaml
+    regions:
+    - us-east-1
+    parameters:
+      RemoteAccessCIDR: "10.0.0.0/16"
+      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
+      PrivateSubnet2ID: subnet-0ccdcfc9a51873602
+      VPCID: vpc-0524c2ce1690c5bae
+      RedisAuth: redis-auth-token
+      RedisCacheNodeType: cache.t3.medium
+      RedisEngineVersion: 3.2.6
+      NumShards: 1
+      NumReplicas: 1
+      SnapshotName: ''
+      SnapshotRetentionLimit: 35
+   test-vpc-template:
+    template: ./submodules/quickstart-aws-vpc/templates/aws-vpc.template.yaml
+    regions:
+    - us-east-1
+    parameters:
+      AvailabilityZones: us-east-1a, us-east-1b
+
