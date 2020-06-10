@@ -59,6 +59,11 @@ Parameters:
       - r5.2xlarge
       - r5.4xlarge
     ConstraintDescription: must be a valid EC2 instance type.
+  ConfigYAMLPath:
+    Description: (Optional) S3 bucket path of the scripted configuration YAML file.
+                 (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
+    Default: ""
+    Type: String
   KeyPairName:
     ConstraintDescription: "Name of an existing EC2 KeyPair."
     Type: "AWS::EC2::KeyPair::KeyName"
@@ -341,12 +346,17 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.PrivateSubnet1AID
+        PublicSubnet1ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PublicSubnet1ID
         RemoteAccessCIDR:
           Ref: RemoteAccessCIDR
         VPCID:
           Fn::GetAtt:
           - VPCStack
           - Outputs.VPCID
+        ConfigYAMLPath: !Ref ConfigYAMLPath
         #VPCCIDR:
         #  Fn::GetAtt:
         #  - VPCStack

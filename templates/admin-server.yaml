@@ -30,6 +30,10 @@ Parameters:
       - r5.4xlarge
       - r5.8xlarge
     ConstraintDescription: must be a valid EC2 instance type.
+  ConfigYAMLPath:
+    Description: (Optional) S3 bucket path of the scripted configuration YAML file.
+                 (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
+    Type: String
   QSS3BucketName:
     AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
     ConstraintDescription: >-
@@ -64,6 +68,9 @@ Parameters:
     Type: String
   PrivateSubnet1ID:
     Description: Private Subnet Id 1
+    Type: 'AWS::EC2::Subnet::Id'
+  PublicSubnet1ID:
+    Description: Public Subnet Id 1
     Type: 'AWS::EC2::Subnet::Id'
   VPCID:
     Description: 'ID of the VPC (e.g., vpc-0343606e)'
@@ -116,11 +123,18 @@ Conditions:
   UsingDefaultBucket: !Equals
     - !Ref QSS3BucketName
     - 'aws-quickstart'
+  InstallConfigScript: !Not [ !Equals [ !Ref ConfigYAMLPath, "" ] ]
 Resources:
   AdminServerInstance:
     Type: AWS::EC2::Instance
     Metadata:
-      'AWS::CloudFormation::Init':
+      AWS::CloudFormation::Authentication:
+        S3Auth:
+          buckets:
+            - !Ref QSS3BucketName
+          roleName: !Ref AdminServerInstanceRole
+          type: S3
+      AWS::CloudFormation::Init:
         configSets:
           bootstrap:
             - export-redis-env-variables
@@ -129,6 +143,10 @@ Resources:
             - config-docker-compose
             - add-user
             - config-admin-server
+            - !If
+              - InstallConfigScript
+              - load-scripted-config
+              - !Ref 'AWS::NoValue'
         export-redis-env-variables:
           commands:
             1_export_redis_host:
@@ -177,6 +195,19 @@ Resources:
             2_install_portal_server_image: 
               command: docker-compose -p network-gateway -f $(ls network-gateway-*-ha.admin.yml) up -d
               cwd: "~"
+        load-scripted-config:
+          files: 
+            /usr/local/dng_config.yml:
+              source: !Ref ConfigYAMLPath
+              group: root
+              owner: root
+              mode: '000644'
+              authentication: S3Auth
+          commands:
+            load_config:
+              command: docker exec -i network-gateway-admin set-config < /usr/local/dng_config.yml
+              cwd: "~"
+        
     Properties:
       IamInstanceProfile: !Ref AdminServerInstanceProfile
       ImageId: !Ref LatestAmiId
@@ -197,7 +228,7 @@ Resources:
         - Description: Primary boot node network interface
           GroupSet:
             - !Ref AdminServerSecurityGroup
-          AssociatePublicIpAddress: true
+          #AssociatePublicIpAddress: true
           DeviceIndex: "0"
           DeleteOnTermination: true
           SubnetId: !Ref PrivateSubnet1ID
@@ -296,6 +327,10 @@ Resources:
               - 'ec2:DescribeAddresses'
             Resource: '*'
             Effect: Allow
+          - Action:
+              - 's3:GetObject'
+            Resource: '*'
+            Effect: Allow
       Roles: 
         - !Ref AdminServerInstanceRole
   
@@ -316,6 +351,40 @@ Resources:
           FromPort: 8443
           ToPort: 8443
           CidrIp: !Ref RemoteAccessCIDR
+
+  # Load balancer resources
+
+  AdminServerNLB:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Scheme: internet-facing
+      Subnets:
+        - !Ref PublicSubnet1ID
+      Tags:
+        - Key: name
+          Value:  AdminServer NLB
+      Type: network
+  NLBListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref NLBTargetGroup
+      LoadBalancerArn: !Ref AdminServerNLB
+      Port: 8443
+      Protocol: TCP
+  NLBTargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPort: '8443'
+      HealthCheckProtocol: TCP
+      Port: 8443
+      Protocol: TCP
+      Targets:
+        - Id: !Ref AdminServerInstance
+          Port: 8443
+      VpcId: !Ref VPCID
 
 #-----------------------------------------a
 # Outputs

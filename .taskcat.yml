@@ -6,11 +6,11 @@ project:
 tests:
    test-full:
     template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
-    s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
+    s3_bucket: tcat-quickstart-cisco-duo-net06i6rnvk
     parameters:
       QSS3BucketName: $[taskcat_autobucket]
       QSS3BucketRegion: $[taskcat_current_region]
-      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      KeyPairName: sshvans #/Users/muffadal/.ssh/id_rsa
       RemoteAccessCIDR: "10.0.0.0/16"
       AvailabilityZones: $[taskcat_getaz_2]
       RedisAuth: redis-auth-token
@@ -25,21 +25,24 @@ tests:
       PortalServerName: PortalServer
       RedisPort: 6379
       RedisAuth: redis-auth-token
-      EmailAddress: muffadalq@gmail.com
+      EmailAddress: example@gmail.com
    test-adminserver:
     template: ./templates/admin-server.yaml
     regions:
     - us-east-1
     parameters:
-      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      KeyPairName: sshvans #/Users/muffadal/.ssh/id_rsa
       RemoteAccessCIDR: "10.0.0.0/16"
-      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
+      ConfigYAMLPath: "https://aws-qs-us-east-1.s3.amazonaws.com/network_gateway.yaml"
+      PrivateSubnet1ID: subnet-035a80624dd18c27d
+      PublicSubnet1ID: subnet-000744072d48472ef
       AdminServerInstanceType: c5.large
-      VPCID: vpc-0524c2ce1690c5bae
-      RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
+      VPCID: vpc-08093d07c57dd6627
+      RedisHost: master.tcrbu4a678bh89.2rxtcp.use1.cache.amazonaws.com
       RedisPort: 6379
-      RedisAuth: redis-auth-token
-      QSS3KeyPrefix: ''
+      RedisAuth: DuoRedisAuthToken
+      QSS3KeyPrefix: quickstart-cisco-duo-network-gateway/
+      QSS3BucketName: tcat-quickstart-cisco-duo-net06i6rnvk
    test-portalserver-stack:
     template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
     regions:
