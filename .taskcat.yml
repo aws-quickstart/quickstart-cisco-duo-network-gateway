@@ -33,9 +33,11 @@ tests:
     parameters:
       KeyPairName: sshvans #/Users/muffadal/.ssh/id_rsa
       RemoteAccessCIDR: "10.0.0.0/16"
-      ConfigYAMLPath: "https://aws-qs-us-east-1.s3.amazonaws.com/network_gateway.yaml"
+      # ConfigYAMLPath: "https://aws-qs-us-east-1.s3.amazonaws.com/network_gateway.yaml"
+      ConfigYAMLPath: ""
       PrivateSubnet1ID: subnet-035a80624dd18c27d
       PublicSubnet1ID: subnet-000744072d48472ef
+      PublicSubnet2ID: subnet-0e194f4c136781533
       AdminServerInstanceType: c5.large
       VPCID: vpc-08093d07c57dd6627
       RedisHost: master.tcrbu4a678bh89.2rxtcp.use1.cache.amazonaws.com

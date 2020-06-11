@@ -72,6 +72,9 @@ Parameters:
   PublicSubnet1ID:
     Description: Public Subnet Id 1
     Type: 'AWS::EC2::Subnet::Id'
+  PublicSubnet2ID:
+    Description: Public Subnet Id 2
+    Type: 'AWS::EC2::Subnet::Id'
   VPCID:
     Description: 'ID of the VPC (e.g., vpc-0343606e)'
     Type: 'AWS::EC2::VPC::Id'
@@ -354,36 +357,57 @@ Resources:
 
   # Load balancer resources
 
-  AdminServerNLB:
+  ApplicationLoadBalancer:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
-      Scheme: internet-facing
       Subnets:
         - !Ref PublicSubnet1ID
+        - !Ref PublicSubnet2ID
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
       Tags:
         - Key: name
-          Value:  AdminServer NLB
-      Type: network
-  NLBListener:
+          Value:  AdminServer ALB
+  ALBListener:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !Ref NLBTargetGroup
-      LoadBalancerArn: !Ref AdminServerNLB
-      Port: 8443
-      Protocol: TCP
-  NLBTargetGroup:
+          TargetGroupArn: !Ref ALBTargetGroup
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+  ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckPort: '8443'
-      HealthCheckProtocol: TCP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 3
       Port: 8443
-      Protocol: TCP
+      Protocol: HTTP
+      UnhealthyThresholdCount: 5
+      VpcId: !Ref VPCID
+      TargetType: instance
       Targets:
         - Id: !Ref AdminServerInstance
           Port: 8443
+  LoadBalancerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP and HTTPS from the Admin server App load balancer only
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref RemoteAccessCIDR
       VpcId: !Ref VPCID
 
 #-----------------------------------------a
@@ -393,3 +417,11 @@ Outputs:
   AdminServerInstance:
     Description: Admin server instance
     Value: !Ref AdminServerInstance
+  URL:
+    Description: The URL of AdminServer
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !GetAtt 
+          - ApplicationLoadBalancer
+          - DNSName

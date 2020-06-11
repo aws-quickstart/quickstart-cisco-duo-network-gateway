@@ -350,6 +350,10 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.PublicSubnet1ID
+        PublicSubnet2ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PublicSubnet2ID
         RemoteAccessCIDR:
           Ref: RemoteAccessCIDR
         VPCID:
