@@ -3,17 +3,22 @@ project:
   owner: quickstart-eng@amazon.com
   regions:
   - us-east-1
+  parameters:
+    QSS3BucketName: $[taskcat_autobucket]
+    QSS3BucketRegion: $[taskcat_current_region]
+    AvailabilityZones: $[taskcat_getaz_2]
+  package_lambda: true
+  build_submodules: true
+  lambda_source_path: functions/source
+  lambda_zip_path: functions/packages
 tests:
    test-full:
     template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
     s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
     parameters:
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
       KeyPairName: /Users/muffadal/.ssh/id_rsa
-      RemoteAccessCIDR: "10.0.0.0/16"
-      AvailabilityZones: $[taskcat_getaz_2]
-      RedisAuth: redis-auth-token
+      RemoteAccessCIDR: "0.0.0.0/0"
+      RedisAuth: DuoRedisAuthToken
       RedisCacheNodeType: cache.t3.medium
       RedisEngineVersion: 3.2.6
       NumShards: 1
@@ -24,8 +29,10 @@ tests:
       PortalServerInstanceType: c5.xlarge
       PortalServerName: PortalServer
       RedisPort: 6379
-      RedisAuth: redis-auth-token
+      RedisAuth: DuoRedisAuthToken
       EmailAddress: muffadalq@gmail.com
+      HostedZoneID: Z07081452BQIGMB9DUQ0P
+      DomainName: muffadalawsdemo.com
    test-adminserver:
     template: ./templates/admin-server.yaml
     regions:
@@ -38,28 +45,31 @@ tests:
       VPCID: vpc-0524c2ce1690c5bae
       RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
       RedisPort: 6379
-      RedisAuth: redis-auth-token
+      RedisAuth: DuoRedisAuthToken
       QSS3KeyPrefix: ''
    test-portalserver-stack:
     template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
+    s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
     regions:
     - us-east-1
     parameters:
       KeyPairName: /Users/muffadal/.ssh/id_rsa
       EmailAddress: muffadalq@gmail.com
       RemoteAccessCIDR: "10.0.0.0/16"
-      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
-      PrivateSubnet2ID: subnet-0ccdcfc9a51873602
-      PublicSubnet1ID: subnet-09bde8d094c068d03
-      PublicSubnet2ID: subnet-08487916f435b5912
-      QSS3KeyPrefix: ''
+      PrivateSubnet1ID: subnet-02df630eeeba64b25
+      PrivateSubnet2ID: subnet-0783116d249fed619
+      PublicSubnet1ID: subnet-0fccd7f099d70e548
+      PublicSubnet2ID: subnet-01b2d50f3e47b3e48
+      QSS3KeyPrefix: quickstart-cisco-duo-network-gateway/
       PortalServerInstanceType: c5.xlarge
       VPCCIDR: "10.0.0.0/16"
-      VPCID: vpc-0524c2ce1690c5bae
-      RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
+      VPCID: vpc-05c420e79d1e8932a
+      RedisHost: master.tcrucxxkzqh7vd7.sbnped.use1.cache.amazonaws.com
       RedisPort: 6379
-      RedisAuth: redis-auth-token
+      RedisAuth: DuoRedisAuthToken
       PortalServerName: PortalServer
+      HostedZoneID: Z07081452BQIGMB9DUQ0P
+      DomainName: muffadalawsdemo.com
    test-redis-stack:
     template: ./templates/redis-cluster.yaml
     regions:
@@ -69,7 +79,7 @@ tests:
       PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
       PrivateSubnet2ID: subnet-0ccdcfc9a51873602
       VPCID: vpc-0524c2ce1690c5bae
-      RedisAuth: redis-auth-token
+      RedisAuth: DuoRedisAuthToken
       RedisCacheNodeType: cache.t3.medium
       RedisEngineVersion: 3.2.6
       NumShards: 1
