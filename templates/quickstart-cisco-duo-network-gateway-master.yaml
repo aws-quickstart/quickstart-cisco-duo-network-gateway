@@ -377,4 +377,4 @@ Outputs:
     Value:
       Fn::GetAtt:
       - PortalServerStack
-      - Outputs.URL
+      - Outputs.DNGLoadBalancer
