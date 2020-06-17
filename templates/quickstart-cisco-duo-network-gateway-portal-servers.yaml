@@ -467,7 +467,7 @@ Resources:
       Protocol: HTTPS
       VpcId: !Ref VPCID
       Matcher:
-        HttpCode: 200
+        HttpCode: '200'
       HealthCheckIntervalSeconds: 10
       HealthCheckPath: /health-check
       HealthCheckProtocol: HTTPS
