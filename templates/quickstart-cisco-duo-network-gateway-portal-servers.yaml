@@ -98,6 +98,24 @@ Parameters:
     #Default: 'LinuxBastion'
     Description: The value used for the name tag of the portal server
     Type: String
+  DomainName:
+    Type: String
+    Description: Fully qualified domain name for the Duo Network Gateway load balancer.
+      If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID.
+    MaxLength: 128
+    Default: ""
+  HostedZoneID:
+    Type: String
+    Description: Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName.
+    Default: ""
+  ACMSSLCertificateArn:
+    Description: Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
+    Type: String
+    Default: ''
+  QSS3BucketRegion:
+    Default: 'us-east-1'
+    Description: 'The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.'
+    Type: String
 #Mappings:
 #  AWSAMIRegionMap:
 #    AMI:
@@ -131,9 +149,20 @@ Parameters:
 #    us-west-2:
 #      US1604HVM: ami-ca89eeb2
 Conditions:
+  UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
   GovCloudCondition: !Equals 
     - !Ref 'AWS::Region'
     - us-gov-west-1
+  CustomDns: !Not [!Equals [!Ref DomainName, '']]
+  CreateDns: !And
+    - !Not
+      - !Equals
+        - !Ref 'HostedZoneID'
+        - ''
+    - !Not
+      - !Equals
+        - !Ref 'DomainName'
+        - ''
 Resources:
   SSMRole:
     Type: "AWS::IAM::Role"
@@ -199,12 +228,12 @@ Resources:
       'AWS::CloudFormation::Init':
         configSets:
           bootstrap:
+            - export-redis-env-variables
             #- config-docker
             - install-docker
             - config-docker-compose
             - add-user
             - config-portal-server
-            - export-redis-env-variables
         #config-docker:
         #  commands:
         #    add_gpg_key:
@@ -213,6 +242,20 @@ Resources:
         #      command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
         #    update_repo:
         #      command: sudo apt-get update
+        export-redis-env-variables:
+          commands:
+            1_export_redis_host:
+              command: !Sub echo export REDIS_HOST=${RedisHost} >> /etc/profile.d/env.sh
+              cwd: "~"
+            2_export_redis_port:
+              command: !Sub echo export REDIS_PORT=${RedisPort} >> /etc/profile.d/env.sh
+              cwd: "~"
+            3_export_redis_auth:
+              command: !Sub echo export REDIS_AUTH=${RedisAuth} >> /etc/profile.d/env.sh
+              cwd: "~"
+            #4_source_env_sh:
+            #  command: source /etc/profile.d/env.sh
+            #  cwd: "~"
         install-docker:
           packages:
             yum:
@@ -229,7 +272,7 @@ Resources:
             2_set-permissions:
               command: chmod +x ./docker-compose
             3_change-docker-compose-location:
-              command: sudo mv ./docker-compose  /usr/local/bin/
+              command: sudo mv ./docker-compose  /usr/bin/
         add-user:
           commands:
             add-user-to-docker-group:
@@ -241,17 +284,10 @@ Resources:
               cwd: "~"
             2_install_portal_server_image: 
               command: docker-compose -p network-gateway -f $(ls network-gateway*) up -d
-              cwd: "~"
-        export-redis-env-variables:
-          commands:
-            1_export_redis_host:
-              command: !Sub echo export REDIS_HOST=${RedisHost} >> .profile
-              cwd: "~"
-            2_export_redis_port:
-              command: !Sub echo export REDIS_PORT=${RedisPort} >> .profile
-              cwd: "~"
-            3_export_redis_auth:
-              command: !Sub echo export REDIS_AUTH=${RedisAuth} >> .profile
+              env: 
+                REDIS_HOST: !Sub ${RedisHost}
+                REDIS_PORT: !Sub ${RedisPort}
+                REDIS_AUTH: !Sub ${RedisAuth}
               cwd: "~"
     Properties:
       KeyName: !Ref KeyPairName
@@ -263,12 +299,12 @@ Resources:
       InstanceType: !Ref PortalServerInstanceType
       IamInstanceProfile: !Ref InstanceProfile
       SecurityGroups:
-        - !Ref LoadBalancerSecurityGroup
+        - !Ref PortalServerSecurityGroup
       UserData: !Base64 
         'Fn::Sub':
           - >
             #!/bin/bash -x
-            
+
             echo \'[Installing git]\'
  
             sudo yum install git -y
@@ -320,8 +356,6 @@ Resources:
             cfn-init -v --stack ${AWS::StackName} --resource
             PortalServerLaunchConfig --configsets bootstrap
             --region ${AWS::Region} || cfn_fail
-
-            source ~/.profile
 
             # Signal cfn-init (final check)
 
@@ -390,26 +424,74 @@ Resources:
   ALBListener:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
+      Certificates:
+      - CertificateArn: !If [ CreateDns, !GetAtt "ACMCertificate.Outputs.ACMCertificate", !Ref ACMSSLCertificateArn ]
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref ALBTargetGroup
       LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 443
+      Protocol: HTTPS
+  PortalServerListenerRedirectToHTTPS:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - Type: "redirect"
+          RedirectConfig:
+            Protocol: "HTTPS"
+            Port: "443"
+            Host: "#{host}"
+            Path: "/#{path}"
+            Query: "#{query}"
+            StatusCode: "HTTP_301"
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
       Port: 80
-      Protocol: HTTP
+      Protocol: "HTTP"
+  DNGListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref ALBListener
+      Priority: 1
+      Conditions:
+      - Field: path-pattern
+        Values:
+        - "/"
+      Actions:
+      - Type: forward
+        TargetGroupArn:
+          Ref: ALBTargetGroup
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      HealthCheckIntervalSeconds: 30
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 3
-      Port: 80
-      Protocol: HTTP
-      UnhealthyThresholdCount: 5
+      Port: 443
+      Protocol: HTTPS
       VpcId: !Ref VPCID
+      Matcher:
+        HttpCode: 200
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: /health-check
+      HealthCheckProtocol: HTTPS
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 5
   LoadBalancerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: Enable HTTP and HTTPS from the load balancer only
+      GroupDescription: Enable HTTP and HTTPS access to the load balancer
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: !Ref RemoteAccessCIDR
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: !Ref RemoteAccessCIDR
+      VpcId: !Ref VPCID
+  PortalServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP, HTTPS and SSH to the Portal Server
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -424,13 +506,40 @@ Resources:
           ToPort: 22
           CidrIp: !Ref RemoteAccessCIDR
       VpcId: !Ref VPCID
+  ACMCertificate:
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+          - W9198
+    Type: AWS::CloudFormation::Stack
+    Condition: CreateDns
+    Properties:
+      TemplateURL:
+        !Sub
+          - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-aws-acm-certificate/templates/quickstart-aws-acm-certificate.template.yml'
+          - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3BucketRegion: !Ref QSS3BucketRegion
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        DomainName: !Ref DomainName
+        HostedZoneID: !Ref HostedZoneID
+  DNGDNSRecord:
+    Condition: CreateDns
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref DomainName
+      AliasTarget:
+        HostedZoneId: !GetAtt ApplicationLoadBalancer.CanonicalHostedZoneID
+        DNSName: !GetAtt ApplicationLoadBalancer.DNSName
+      HostedZoneId: !Ref 'HostedZoneID'
   
 Outputs:
-  URL:
-    Description: The URL of PortalServer
-    Value: !Join 
-      - ''
-      - - 'http://'
-        - !GetAtt 
-          - ApplicationLoadBalancer
-          - DNSName
+  DNGLoadBalancer:
+    Value: 
+      !Sub 
+      - "https://${DNSAddress}/"
+      - DNSAddress: !If [ CustomDns, !Ref DomainName, !GetAtt "ApplicationLoadBalancer.DNSName"  ]

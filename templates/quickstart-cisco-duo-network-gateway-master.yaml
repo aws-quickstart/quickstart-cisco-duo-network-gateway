@@ -115,7 +115,7 @@ Parameters:
   RemoteAccessCIDR:
     AllowedPattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$"
     ConstraintDescription: "CIDR block parameter must be in the form x.x.x.x/x"
-    Description: "Allowed CIDR block for external SSH access"
+    Description: "Allowed CIDR block for external access to the load balancer"
     Type: String
   AuthToken: 
     AllowedPattern: '[a-zA-Z0-9]*'
@@ -173,6 +173,19 @@ Parameters:
     Default: 'PortalServer'
     Description: The value used for the name tag of the portal server
     Type: String
+  DomainName:
+    Type: String
+    Description: Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID.
+    MaxLength: 128
+    Default: ""
+  HostedZoneID:
+    Type: String
+    Description: Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName.
+    Default: ""
+  ACMSSLCertificateArn:
+    Description: Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
+    Type: String
+    Default: ""
 Conditions:
   UsingDefaultBucket: !Equals 
     - !Ref QSS3BucketName
@@ -279,6 +292,7 @@ Resources:
             - !Sub '${QSS3BucketName}-${AWS::Region}'
             - !Ref QSS3BucketName
       Parameters:
+        QSS3BucketRegion: !Ref QSS3BucketRegion
         EmailAddress: !Ref EmailAddress
         PortalServerInstanceType: !Ref PortalServerInstanceType
         KeyPairName: !Ref KeyPairName
@@ -316,6 +330,9 @@ Resources:
         RedisPort: !GetAtt RedisServerStack.Outputs.PrimaryEndPointPort
         RedisAuth: !GetAtt RedisServerStack.Outputs.RedisAuthToken
         PortalServerName: !Ref PortalServerName
+        DomainName: !Ref DomainName
+        HostedZoneID: !Ref HostedZoneID
+        ACMSSLCertificateArn: !Ref ACMSSLCertificateArn
   AdminServerStack:
     Type: AWS::CloudFormation::Stack
     Properties:

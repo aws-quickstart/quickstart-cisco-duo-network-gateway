@@ -132,13 +132,13 @@ Resources:
         export-redis-env-variables:
           commands:
             1_export_redis_host:
-              command: !Sub echo export REDIS_HOST=${RedisHost} >> .profile
+              command: !Sub echo export REDIS_HOST=${RedisHost} >> /etc/profile.d/env.sh
               cwd: "~"
             2_export_redis_port:
-              command: !Sub echo export REDIS_PORT=${RedisPort} >> .profile
+              command: !Sub echo export REDIS_PORT=${RedisPort} >> /etc/profile.d/env.sh
               cwd: "~"
             3_export_redis_auth:
-              command: !Sub echo export REDIS_AUTH=${RedisAuth} >> .profile
+              command: !Sub echo export REDIS_AUTH=${RedisAuth} >> /etc/profile.d/env.sh
               cwd: "~"
         #config-docker:
         #  commands:
@@ -164,7 +164,7 @@ Resources:
             2_set-permissions:
               command: chmod +x ./docker-compose
             3_change-docker-compose-location:
-              command: sudo mv ./docker-compose  /usr/local/bin/
+              command: sudo mv ./docker-compose  /usr/bin/
         add-user:
           commands:
             add-user-to-docker-group:
@@ -176,6 +176,10 @@ Resources:
               cwd: "~"
             2_install_portal_server_image: 
               command: docker-compose -p network-gateway -f $(ls network-gateway-*-ha.admin.yml) up -d
+              env: 
+                REDIS_HOST: !Sub ${RedisHost}
+                REDIS_PORT: !Sub ${RedisPort}
+                REDIS_AUTH: !Sub ${RedisAuth}
               cwd: "~"
     Properties:
       IamInstanceProfile: !Ref AdminServerInstanceProfile
