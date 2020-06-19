@@ -65,6 +65,12 @@ Parameters:
   PrivateSubnet1ID:
     Description: Private Subnet Id 1
     Type: 'AWS::EC2::Subnet::Id'
+  PublicSubnet1ID:
+    Description: Public Subnet Id 1
+    Type: 'AWS::EC2::Subnet::Id'
+  PublicSubnet2ID:
+    Description: Public Subnet Id 2
+    Type: 'AWS::EC2::Subnet::Id'
   VPCID:
     Description: 'ID of the VPC (e.g., vpc-0343606e)'
     Type: 'AWS::EC2::VPC::Id'
@@ -80,6 +86,24 @@ Parameters:
   LatestAmiId:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+  DomainName:
+    Type: String
+    Description: Fully qualified domain name for the Duo Network Gateway load balancer.
+      If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID.
+    MaxLength: 128
+    Default: ""
+  HostedZoneID:
+    Type: String
+    Description: Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName.
+    Default: ""
+  ACMSSLCertificateArn:
+    Description: Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
+    Type: String
+    Default: ''
+  QSS3BucketRegion:
+    Default: 'us-east-1'
+    Description: 'The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.'
+    Type: String
 #Mappings:
 #  AWSAMIRegionMap:
 #    AMI:
@@ -116,6 +140,16 @@ Conditions:
   UsingDefaultBucket: !Equals
     - !Ref QSS3BucketName
     - 'aws-quickstart'
+  CustomDns: !Not [!Equals [!Ref DomainName, '']]
+  CreateDns: !And
+    - !Not
+      - !Equals
+        - !Ref 'HostedZoneID'
+        - ''
+    - !Not
+      - !Equals
+        - !Ref 'DomainName'
+        - ''
 Resources:
   AdminServerInstance:
     Type: AWS::EC2::Instance
@@ -319,8 +353,93 @@ Resources:
         - IpProtocol: tcp
           FromPort: 8443
           ToPort: 8443
-          CidrIp: !Ref RemoteAccessCIDR
+          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
 
+  # Load balancer resources
+
+  ApplicationLoadBalancer:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Subnets:
+        - !Ref PublicSubnet1ID
+        - !Ref PublicSubnet2ID
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+      Tags:
+        - Key: name
+          Value:  AdminServer ALB
+  ALBListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      Certificates:
+      - CertificateArn: !If [ CreateDns, !GetAtt "ACMCertificate.Outputs.ACMCertificate", !Ref ACMSSLCertificateArn ]
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroup
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 8443
+      Protocol: HTTPS
+  ALBTargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 3
+      HealthCheckPath: /
+      Matcher:
+        HttpCode: '200'
+      HealthCheckProtocol: HTTPS
+      Port: 8443
+      Protocol: HTTPS
+      UnhealthyThresholdCount: 5
+      VpcId: !Ref VPCID
+      TargetType: instance
+      Targets:
+        - Id: !Ref AdminServerInstance
+          Port: 8443
+  LoadBalancerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable HTTP and HTTPS from the Admin server App load balancer only
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8443
+          ToPort: 8443
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPCID
+
+  # ACM Certificate resources
+
+  ACMCertificate:
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+          - W9198
+    Type: AWS::CloudFormation::Stack
+    Condition: CreateDns
+    Properties:
+      TemplateURL:
+        !Sub
+          - 'https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-aws-acm-certificate/templates/quickstart-aws-acm-certificate.template.yml'
+          - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
+            S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
+      Parameters:
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3BucketRegion: !Ref QSS3BucketRegion
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        DomainName: !Ref DomainName
+        HostedZoneID: !Ref HostedZoneID
+  DNGDNSRecord:
+    Condition: CreateDns
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref DomainName
+      AliasTarget:
+        HostedZoneId: !GetAtt ApplicationLoadBalancer.CanonicalHostedZoneID
+        DNSName: !GetAtt ApplicationLoadBalancer.DNSName
+      HostedZoneId: !Ref 'HostedZoneID'
 #-----------------------------------------a
 # Outputs
 #-----------------------------------------a
@@ -328,3 +447,9 @@ Outputs:
   AdminServerInstance:
     Description: Admin server instance
     Value: !Ref AdminServerInstance
+
+  AdminServerLoadBalancer:
+    Value: 
+      !Sub 
+      - "https://${DNSAddress}:8443/"
+      - DNSAddress: !If [ CustomDns, !Ref DomainName, !GetAtt "ApplicationLoadBalancer.DNSName"  ]

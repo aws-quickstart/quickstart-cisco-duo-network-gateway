@@ -175,12 +175,20 @@ Parameters:
     Type: String
   DomainName:
     Type: String
-    Description: Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID.
+    Description: Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
     MaxLength: 128
     Default: ""
   HostedZoneID:
     Type: String
-    Description: Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName.
+    Description: Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
+    Default: ""
+  PortalServerSubdomain:
+    Type: String
+    Description: Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'
+    Default: ""
+  AdminServerSubdomain:
+    Type: String
+    Description: Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'
     Default: ""
   ACMSSLCertificateArn:
     Description: Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
@@ -330,7 +338,7 @@ Resources:
         RedisPort: !GetAtt RedisServerStack.Outputs.PrimaryEndPointPort
         RedisAuth: !GetAtt RedisServerStack.Outputs.RedisAuthToken
         PortalServerName: !Ref PortalServerName
-        DomainName: !Ref DomainName
+        DomainName: !Sub '${PortalServerSubdomain}.${DomainName}'
         HostedZoneID: !Ref HostedZoneID
         ACMSSLCertificateArn: !Ref ACMSSLCertificateArn
   AdminServerStack:
@@ -358,6 +366,14 @@ Resources:
           Fn::GetAtt:
           - VPCStack
           - Outputs.PrivateSubnet1AID
+        PublicSubnet1ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PublicSubnet1ID
+        PublicSubnet2ID:
+          Fn::GetAtt:
+          - VPCStack
+          - Outputs.PublicSubnet2ID
         RemoteAccessCIDR:
           Ref: RemoteAccessCIDR
         VPCID:
@@ -371,6 +387,9 @@ Resources:
         RedisHost: !GetAtt RedisServerStack.Outputs.PrimaryEndPointAddress
         RedisPort: !GetAtt RedisServerStack.Outputs.PrimaryEndPointPort
         RedisAuth: !GetAtt RedisServerStack.Outputs.RedisAuthToken
+        DomainName: !Sub '${AdminServerSubdomain}.${DomainName}'
+        HostedZoneID: !Ref HostedZoneID
+        ACMSSLCertificateArn: !Ref ACMSSLCertificateArn
 Outputs:
   WebURL:
     Description: "The web server URL"
