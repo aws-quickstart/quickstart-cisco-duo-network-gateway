@@ -14,10 +14,11 @@ project:
 tests:
    test-full:
     template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
-    s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
+    s3_bucket: tcat-quickstart-cisco-duo-netbfa3zphe
     parameters:
-      KeyPairName: /Users/muffadal/.ssh/id_rsa
-      RemoteAccessCIDR: "0.0.0.0/0"
+      KeyPairName: sshvans # /Users/muffadal/.ssh/id_rsa
+      AdminServerRemoteAccessCIDR: "0.0.0.0/0"
+      PortalServerRemoteAccessCIDR: "10.0.0.0/16"
       RedisAuth: DuoRedisAuthToken
       RedisCacheNodeType: cache.t3.medium
       RedisEngineVersion: 3.2.6
@@ -31,22 +32,30 @@ tests:
       RedisPort: 6379
       RedisAuth: DuoRedisAuthToken
       EmailAddress: muffadalq@gmail.com
-      HostedZoneID: Z07081452BQIGMB9DUQ0P
-      DomainName: muffadalawsdemo.com
+      HostedZoneID: Z03411186LX2V3ZE3N4K # Z07081452BQIGMB9DUQ0P
+      DomainName: shivansh.dev # muffadalawsdemo.com
+      PortalServerSubdomain: portalserver
+      AdminServerSubdomain: adminserver
    test-adminserver:
     template: ./templates/admin-server.yaml
+    s3_bucket: tcat-quickstart-cisco-duo-netbfa3zphe
     regions:
     - us-east-1
     parameters:
-      KeyPairName: /Users/muffadal/.ssh/id_rsa
+      DomainName: adminserver.shivansh.dev
+      EmailAddress: muffadalq@gmail.com
+      HostedZoneID: Z03411186LX2V3ZE3N4K
+      KeyPairName: sshvans # /Users/muffadal/.ssh/id_rsa
       RemoteAccessCIDR: "10.0.0.0/16"
-      PrivateSubnet1ID: subnet-00b26c5c1aa3ab0f4
-      AdminServerInstanceType: c5.large
-      VPCID: vpc-0524c2ce1690c5bae
-      RedisHost: master.tcrnhg8ji6jbkqb.sbnped.use1.cache.amazonaws.com
+      PrivateSubnet1ID: subnet-08b8136033c076c52
+      PublicSubnet1ID: subnet-06058c0eaafdc2b7d
+      PublicSubnet2ID: subnet-01514050675652f5d
+      AdminServerInstanceType: c5.xlarge
+      VPCID: vpc-061e90afe143e86e2
+      RedisHost: master.tcr173i9ob1yaiuz.2rxtcp.use1.cache.amazonaws.com
       RedisPort: 6379
       RedisAuth: DuoRedisAuthToken
-      QSS3KeyPrefix: ''
+      QSS3KeyPrefix: 'quickstart-cisco-duo-network-gateway/'
    test-portalserver-stack:
     template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
     s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
