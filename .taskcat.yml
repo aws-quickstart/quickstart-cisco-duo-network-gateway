@@ -14,9 +14,9 @@ project:
 tests:
    test-full:
     template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
-    s3_bucket: tcat-quickstart-cisco-duo-netbfa3zphe
+    s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir #tcat-quickstart-cisco-duo-netbfa3zphe
     parameters:
-      KeyPairName: sshvans # /Users/muffadal/.ssh/id_rsa
+      KeyPairName: /Users/muffadal/.ssh/id_rsa
       AdminServerRemoteAccessCIDR: "0.0.0.0/0"
       PortalServerRemoteAccessCIDR: "10.0.0.0/16"
       RedisAuth: DuoRedisAuthToken
@@ -31,9 +31,8 @@ tests:
       PortalServerName: PortalServer
       RedisPort: 6379
       RedisAuth: DuoRedisAuthToken
-      EmailAddress: muffadalq@gmail.com
-      HostedZoneID: Z03411186LX2V3ZE3N4K # Z07081452BQIGMB9DUQ0P
-      DomainName: shivansh.dev # muffadalawsdemo.com
+      HostedZoneID: Z07081452BQIGMB9DUQ0P
+      DomainName: muffadalawsdemo.com
       PortalServerSubdomain: portalserver
       AdminServerSubdomain: adminserver
    test-adminserver:
