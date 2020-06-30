@@ -1,5 +1,108 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Cisco Systems Duo Network Gateway (New VPC). This template deploys Duo Network Gateway cluster 
+  into a new VPC with a Multi-AZ active-active autoscaling group using a Redis cluster for shared state.
+  Please see the Quick Start documentation for more details. **WARNING** You will
+  be billed for the FortiGate On-Demand instances and related AWS resources if you
+  create a stack from this template.
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: Availability Zone Configuration
+        Parameters:
+          - AvailabilityZones
+      - Label:
+          default: VPC Network Configuration
+        Parameters:
+          - VPCCIDR
+          - PublicSubnet1CIDR
+          - PublicSubnet2CIDR
+          - PrivateSubnet1CIDR
+          - PrivateSubnet2CIDR
+      - Label:
+          default: Duo Network Gateway Configuration
+        Parameters:
+          - ACMSSLCertificateArn
+          - AdminServerInstanceType
+          - AdminServerRemoteAccessCIDR
+          - AdminServerSubdomain
+          - AuthToken
+          - DomainName
+          - HostedZoneID
+          - KeyPairName
+          - NumReplicas
+          - NumShards
+          - PortalServerInstanceType
+          - PortalServerName
+          - PortalServerRemoteAccessCIDR
+          - PortalServerSubdomain
+          - RedisCacheNodeType
+          - RedisEngineVersion
+          - SnapshotName
+          - SnapshotRetentionLimit
+      - Label:
+          default: AWS Quick Start Configuration
+        Parameters:
+          - QSS3BucketName
+          - QSS3BucketRegion
+          - QSS3KeyPrefix
+    ParameterLabels: 
+      AvailabilityZones:
+        default: Availability zones
+      VPCCIDR:
+        default: VPC CIDR
+      PublicSubnet1CIDR:
+        default: Public Subnet 1 CIDR for application load balancer
+      PublicSubnet2CIDR:
+        default: Public Subnet 2 CIDR for application load balancer
+      PrivateSubnet1CIDR:
+        default: Private subnet 1 CIDR for Duo Network Gateway servers
+      PrivateSubnet2CIDR:
+        default: Private subnet 2 CIDR for Duo Network Gateway servers
+      QSS3BucketName:
+        default: Quick Start S3 Bucket Name
+      QSS3BucketRegion:
+        default: Quick Start S3 bucket region
+      QSS3KeyPrefix:
+        default: Quick Start S3 Key Prefix
+      ACMSSLCertificateArn:
+        default: 'Amazon Resource Name (ARN) of the load balancer''s SSL certificate. If you don''t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.'
+      AdminServerInstanceType:
+        default: Admin Server EC2 instance type
+      AdminServerRemoteAccessCIDR:
+        default: Allowed CIDR block for external access to the load balancer
+      AdminServerSubdomain:
+        default: 'Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then FQDN for admin server will be ''adminserver.corp.com'''
+      AuthToken:
+        default: The Auth Token for the redis cluster
+      DomainName:
+        default: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
+      HostedZoneID:
+        default: 'Route 53-hosted zone ID of the domain name. If you don''t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.'
+      KeyPairName:
+        default: Name of an existing EC2 KeyPair.
+      NumReplicas:
+        default: Number of replicas per shard in redis replication group.
+      NumShards:
+        default: Number of shards in the cluster.
+      PortalServerInstanceType:
+        default: Portal Server EC2 instance type
+      PortalServerName:
+        default: The value used for the name tag of the portal server
+      PortalServerRemoteAccessCIDR:
+        default: Allowed CIDR block for external access to the load balancer
+      PortalServerSubdomain:
+        default: 'Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''portalserver'' and the DomainName parameter value is ''corp.com'', then FQDN for portal server will be ''portalserver.corp.com'''
+      RedisCacheNodeType:
+        default: Enter one of the allowed values
+      RedisEngineVersion:
+        default: Redis replication group version
+      SnapshotName:
+        default: Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
+      SnapshotRetentionLimit:
+        default: The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).
 Parameters:
   ACMSSLCertificateArn:
     Default: ''
@@ -54,11 +157,6 @@ Parameters:
     Default: ''
     Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
     MaxLength: 128
-    Type: String
-  EmailAddress:
-    AllowedPattern: '([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)'
-    ConstraintDescription: Must be a valid email id.
-    Description: Email Address for notification
     Type: String
   HostedZoneID:
     Default: ''
@@ -245,7 +343,6 @@ Resources:
         AdminServerSubdomain: !Ref AdminServerSubdomain
         AuthToken: !Ref AuthToken 
         DomainName: !Ref DomainName
-        EmailAddress: !Ref EmailAddress
         HostedZoneID: !Ref HostedZoneID
         KeyPairName: !Ref KeyPairName
         NumReplicas: !Ref NumReplicas
