@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-   Redis cluster for Admin server and portal servers
+   Redis cluster for Admin server and portal servers. (qs-1qtp7fd3f)
 Parameters:
   RemoteAccessCIDR:
     AllowedPattern: >-

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-   PortalServer, in ASG behind ALB.
+   PortalServer, in ASG behind ALB (qs-1qtp7fd38).
 Parameters:
   PortalServerInstanceType:
     Description: Portal Server EC2 instance type

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-   Create Cisco Duo network gateway Admin server.
+   Create Cisco Duo network gateway Admin server (qs-1qtp7fcul).
 Parameters:
   AdminServerRootVolumeSize:
     Description: Root volume size
