@@ -29,6 +29,7 @@ Metadata:
           - AdminServerRemoteAccessCIDR
           - AdminServerSubdomain
           - AuthToken
+          - ConfigYAMLPath
           - DomainName
           - HostedZoneID
           - KeyPairName
@@ -77,6 +78,8 @@ Metadata:
         default: 'Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then FQDN for admin server will be ''adminserver.corp.com'''
       AuthToken:
         default: The Auth Token for the redis cluster
+      ConfigYAMLPath:
+        default: S3 bucket path of the Duo Network Gateway config file
       DomainName:
         default: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
       HostedZoneID:
@@ -153,9 +156,14 @@ Parameters:
   AvailabilityZones:
     Description: 'List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.'
     Type: 'List<AWS::EC2::AvailabilityZone::Name>'
+  ConfigYAMLPath:
+    Description: (Optional) S3 bucket path of the scripted configuration YAML file.
+                 (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
+    Default: ""
+    Type: String
   DomainName:
     Default: ''
-    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
+    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
     MaxLength: 128
     Type: String
   HostedZoneID:
@@ -342,6 +350,7 @@ Resources:
           Ref: AdminServerRemoteAccessCIDR
         AdminServerSubdomain: !Ref AdminServerSubdomain
         AuthToken: !Ref AuthToken 
+        ConfigYAMLPath: !Ref ConfigYAMLPath
         DomainName: !Ref DomainName
         HostedZoneID: !Ref HostedZoneID
         KeyPairName: !Ref KeyPairName

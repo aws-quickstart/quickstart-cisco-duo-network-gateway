@@ -26,6 +26,7 @@ Metadata:
           - AdminServerRemoteAccessCIDR
           - AdminServerSubdomain
           - AuthToken
+          - ConfigYAMLPath
           - DomainName
           - HostedZoneID
           - KeyPairName
@@ -74,6 +75,8 @@ Metadata:
         default: 'Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then FQDN for admin server will be ''adminserver.corp.com'''
       AuthToken:
         default: The Auth Token for the redis cluster
+      ConfigYAMLPath:
+        default: S3 bucket path of the Duo Network Gateway config file
       DomainName:
         default: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
       HostedZoneID:
@@ -146,6 +149,10 @@ Parameters:
     MaxLength: 128
     MinLength: 16
     NoEcho: true
+    Type: String
+  ConfigYAMLPath:
+    Description: (Optional) S3 bucket path of the scripted configuration YAML file.
+                 (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
     Type: String
   DomainName:
     Default: ''
@@ -361,6 +368,7 @@ Resources:
             - !Ref QSS3BucketName
       Parameters:
         AdminServerInstanceType: !Ref AdminServerInstanceType
+        ConfigYAMLPath: !Ref ConfigYAMLPath
         KeyPairName: !Ref KeyPairName
         QSS3BucketName:
           Ref: QSS3BucketName
