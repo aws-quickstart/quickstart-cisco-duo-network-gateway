@@ -13,7 +13,7 @@ project:
   lambda_zip_path: functions/packages
 tests:
    test-full:
-    template: ./templates/quickstart-cisco-duo-network-gateway-master.yaml
+    template: ./templates/quickstart-cisco-duo-network-gateway-master.template.yaml
     s3_bucket: ''
     parameters:
       KeyPairName: sshvans #/Users/muffadal/.ssh/id_rsa
@@ -37,7 +37,7 @@ tests:
       AdminServerSubdomain: adminserver
       ConfigYAMLPath: ''
   #  test-adminserver:
-  #   template: ./templates/admin-server.yaml
+  #   template: ./templates/admin-server.template.template.yaml
   #   s3_bucket: tcat-quickstart-cisco-duo-netbfa3zphe
   #   regions:
   #   - us-east-1
@@ -57,7 +57,7 @@ tests:
   #     RedisAuth: DuoRedisAuthToken
   #     QSS3KeyPrefix: 'quickstart-cisco-duo-network-gateway/'
   #  test-portalserver-stack:
-  #   template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.yaml
+  #   template: ./templates/quickstart-cisco-duo-network-gateway-portal-servers.template.yaml
   #   s3_bucket: tcat-quickstart-cisco-duo-net3cnfvoir
   #   regions:
   #   - us-east-1
@@ -80,7 +80,7 @@ tests:
   #     HostedZoneID: Z07081452BQIGMB9DUQ0P
   #     DomainName: muffadalawsdemo.com
   #  test-redis-stack:
-  #   template: ./templates/redis-cluster.yaml
+  #   template: ./templates/redis-cluster.template.yaml
   #   regions:
   #   - us-east-1
   #   parameters:
@@ -96,7 +96,7 @@ tests:
   #     SnapshotName: ''
   #     SnapshotRetentionLimit: 35
   #  test-vpc-template:
-  #   template: ./submodules/quickstart-aws-vpc/templates/aws-vpc.template.yaml
+  #   template: ./submodules/quickstart-aws-vpc/templates/aws-vpc.template.template.yaml
   #   regions:
   #   - us-east-1
   #   parameters:
