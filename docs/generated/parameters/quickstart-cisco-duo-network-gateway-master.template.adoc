@@ -1,0 +1,49 @@
+
+.Availability Zone Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default Value|Description|Availability zones
+(`AvailabilityZones`)|`**__Requires Input__**`|List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.
+|===
+.VPC Network Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default Value|Description|VPC CIDR
+(`VPCCIDR`)|`10.0.0.0/16`|CIDR block for the VPC|Public Subnet 1 CIDR for application load balancer
+(`PublicSubnet1CIDR`)|`10.0.128.0/20`|CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1|Public Subnet 2 CIDR for application load balancer
+(`PublicSubnet2CIDR`)|`10.0.144.0/20`|CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2|Private subnet 1 CIDR for Duo Network Gateway servers
+(`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1 located in Availability Zone 1|Private subnet 2 CIDR for Duo Network Gateway servers
+(`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2 located in Availability Zone 2
+|===
+.Duo Network Gateway Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default Value|Description|Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
+(`ACMSSLCertificateArn`)|``|Amazon Resource Name (ARN) of the load balancer's SSL certificate. If you don't provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.|Admin Server EC2 instance type
+(`AdminServerInstanceType`)|`t3.medium`|Admin Server EC2 instance type|Allowed CIDR block for external access to the load balancer
+(`AdminServerRemoteAccessCIDR`)|`**__Requires Input__**`|The allowed CIDR block for remote access to the DNG Admin Server. It is imperative to restrict traffic on the admin server’s port 8443 to authorized network ranges only and not widely internet accessible.|Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'
+(`AdminServerSubdomain`)|``|Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'|The Auth Token for the redis cluster
+(`AuthToken`)|`DuoRedisAuthToken`|The Auth Token for the redis cluster|S3 bucket path of the Duo Network Gateway config file
+(`ConfigYAMLPath`)|``|(Optional) S3 bucket path of the scripted configuration YAML file. (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)|Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
+(`DomainName`)|``|Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.|Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
+(`HostedZoneID`)|``|Route 53-hosted zone ID of the domain name. If you don't provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.|Name of an existing EC2 KeyPair.
+(`KeyPairName`)|`**__Requires Input__**`|NO_DESCRIPTION|Number of replicas per shard in redis replication group.
+(`NumReplicas`)|`1`|Number of replicas per shard.|Number of shards in the cluster.
+(`NumShards`)|`1`|Number of shards in the cluster.|Portal Server EC2 instance type
+(`PortalServerInstanceType`)|`t3.medium`|Portal Server EC2 instance type|The value used for the name tag of the portal server
+(`PortalServerName`)|`PortalServer`|The value used for the name tag of the portal server|Allowed CIDR block for external access to the load balancer
+(`PortalServerRemoteAccessCIDR`)|`**__Requires Input__**`|Allowed CIDR block for external access to the load balancer|Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'
+(`PortalServerSubdomain`)|``|Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'|Enter one of the allowed values
+(`RedisCacheNodeType`)|`cache.t3.medium`|Enter one of the allowed values|Redis replication group version
+(`RedisEngineVersion`)|`3.2.6`|Redis replication group version|Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
+(`SnapshotName`)|``|Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).|The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).
+(`SnapshotRetentionLimit`)|`35`|The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).
+|===
+.AWS Quick Start Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default Value|Description|Quick Start S3 Bucket Name
+(`QSS3BucketName`)|`aws-quickstart`|S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).|Quick Start S3 bucket region
+(`QSS3BucketRegion`)|`us-east-1`|The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.|Quick Start S3 Key Prefix
+(`QSS3KeyPrefix`)|`quickstart-cisco-duo-network-gateway/`|S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).
+|===
