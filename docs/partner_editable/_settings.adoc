@@ -1,11 +1,11 @@
-:quickstart-project-name: quickstart-documentation-base
-:partner-product-name: Example Product Name
-:partner-company-name: Example Company Name, Ltd.
-:doc-month: May
+:quickstart-project-name: quickstart-cisco-duo-network-gateway
+:partner-product-name: Duo Network Gateway
+:partner-company-name: Cisco Systems Inc.
+:doc-month: July
 :doc-year: 2020
-:partner-contributors: John Doe and Jane Doe - {partner-company-name}
-:quickstart-contributors: Jim Smith - AWS Global Partner SA, AWS + Joe Jones - Technical Product Manager, AWS
-:deployment_time: 30 minutes / 1 hour
+:partner-contributors: Jacob Julian - {partner-company-name}
+:quickstart-contributors: Muffadal Quettawala and Shivansh Singh, Amazon Web Services
+:deployment_time: 15 minutes
 :default_deployment_region: us-east-1
 // Uncomment these two attributes if you are leveraging
 // - an AWS Marketplace listing.

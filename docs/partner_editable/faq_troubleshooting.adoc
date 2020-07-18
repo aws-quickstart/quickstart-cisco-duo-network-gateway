@@ -1,6 +1,29 @@
 // Add any tips or answers to anticipated questions. This could include the following troubleshooting information. If you don’t have any other Q&A to add, change “FAQ” to “Troubleshooting.”
 
 == FAQ
+*Q.* How do I output Duo Network Gateway Docker logs to a file?
+
+*A.* To export the logs, SSH into the Duo Network Gateway (DNG) server and run the following command. You may need to replace the example DNG YML name with your current file's actual name:
+
+`+docker-compose -p network-gateway -f network-gateway-1.5.5.yml logs > Dng.log+`
+
+This will now export everything to a Dng.log file outside of your Docker Container. Once you are done exporting your logs you can cancel the log by pressing *Ctrl + C*.
+
+*Q.* Can I bulk-create web applications for Duo Network Gateway?
+
+*A.* Yes. You can configure Duo Network Gateway (DNG) using a configuration file so that you can bulk-create web applications, store your settings locally in source control, automatically deploy, and make changes to Duo Network Gateway without having to access the Admin console.
+
+Please see the documentation: https://duo.com/docs/dng-scripted-config[Scripted Configuration for Duo Network Gateway^].
+
+*Q.* How do I determine the current version number of the Duo Network Gateway?
+
+*A.* To determine the current version number of the Duo Network Gateway, log into the Duo Network Gateway Admin Console and check the footer:
+
+image::../images/faq_answer.png[faq_answer,width=439,height=648]
+
+*Q.* How to interpret and troubleshoot Duo Network Gateway issues.
+
+*A.* Please see the https://help.duo.com/s/article/dng-issues-guide?language=en_US[official Duo Security Knowledge Base^] for a list of common error messages with their meaning and resolution. 
 
 *Q.* I encountered a *CREATE_FAILED* error when I launched the Quick Start.
 
@@ -16,6 +39,6 @@ For additional information, see https://docs.aws.amazon.com/AWSCloudFormation/la
 *A.* We recommend that you launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template size limitations. For more information about AWS CloudFormation quotas, see the http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html[AWS documentation^].
 
 
-== Troubleshooting
+//== Troubleshooting
 
-<Steps for troubleshooting the deployment go here.>
+//<Steps for troubleshooting the deployment go here.>
