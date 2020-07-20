@@ -4,7 +4,7 @@ Description: >-
   Cisco Systems Duo Network Gateway (Existing VPC). This template deploys Duo Network Gateway cluster 
   into an existing VPC with a Multi-AZ active-active autoscaling group using a Redis cluster for shared state.
   Please see the Quick Start documentation for more details. **WARNING** You will
-  be billed for the FortiGate On-Demand instances and related AWS resources if you
+  be billed for the On-Demand instances and related AWS resources if you
   create a stack from this template. (qs-1qtp7fd41)
 Metadata:
   QuickStartDocumentation:
