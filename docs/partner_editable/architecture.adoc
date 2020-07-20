@@ -18,12 +18,19 @@ In the public subnets:
 
 * Managed network address translation (NAT) gateways to allow outbound
 internet access for resources in the private subnets.*
-* A Linux bastion host in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to EC2 instances in public and private subnets.*
+* Application Load balancers to load balance traffic to the Duo Network Gateway Portal servers and the Duo Network Gateway Admin server.*
 
 In the private subnets:
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram.
-* <describe any additional components>.
+* Duo Network Gateway Portal Servers which end-users will use to interface with Duo Network Gateway.
+* Duo Network Gateway Admin Server for configuring Duo Network Gateway.
+* An Elasticache Redis instance, which holds the configuration and state for Duo Network Gateway.
+
+* An AWS Route53 Public Hosted Zone to traffic for the Duo Network Gateway domain and its subdomains.
+* SSL/TSL certificates in AWS Certificate Manager for the Duo Network Gateway Portal server and Duo Network Gateway Admin server load balancers.
+* AWS Systems Manager Session Manager to manage access to the Duo Network Gateway Portal and Duo Network Gateway Admin server.
+* Optional: Amazon S3 Bucket for Duo Network Gateway Portal server scripted deployment.
+
 
 *The template that deploys the Quick Start into an existing VPC skips
 the components marked by asterisks and prompts you for your existing VPC

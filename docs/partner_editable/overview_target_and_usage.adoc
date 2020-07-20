@@ -4,4 +4,6 @@
 
 This Quick Start reference deployment guide provides step-by-step instructions for deploying {partner-product-name} on the AWS Cloud.
 
-This Quick Start is for users who <target audience and usage scenario>
+Meant for IT architects, Network Administrators, DevOps professionals, and owners of a company’s Duo instance who are planning to implement or extend their Duo Network Gateway deployment on the AWS Cloud, this Quick Start deployment guide discusses architectural considerations and configuration steps for deploying a Duo Network Gateway cluster on the Amazon Web Services (AWS) Cloud. It also provides links for viewing and launching AWS CloudFormation templates that automate the deployment.
+
+This Quick Start deployment will deploy the infrastructure necessary to add Duo authentication to web apps and SSH connections on the AWS Cloud. This Quick Start will deploy Duo Network Gateway on AWS Cloud in a high-availability mode and allow for auto-scaling based on CPU load.
