@@ -1118,6 +1118,34 @@ Certain regions are available on an opt-in basis. Refer to the AWS Documentation
 <div class="paragraph">
 <p>The <em>AdministratorAccess</em> managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions.</p>
 </div>
+<div class="paragraph">
+<p>This Quickstart assumes that the user has:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A registered domain name e.g. <em>mycompany.com</em> that is registered externally or via AWS Route53.</p>
+</li>
+<li>
+<p>A public hosted zone created in AWS Route53. In order to route internet traffic for a domain, AWS Route53 requires a public hosted zone to be created as a secondary step for either an external or AWS Route53 registered domain name.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Once the public hosted zone is created, the Quickstart provides 2 deployment parameter options to the user:</p>
+</div>
+<div class="paragraph">
+<p><strong>Option1:</strong></p>
+</div>
+<div class="paragraph">
+<p>The user specifies the public hosted zone ID and subdomain names for the Duo Network Gateway admin and portal server load balancers as input parameters to the Quickstart template. With this option, the Quickstart subsequently generates tls certificates (in AWS ACM) and then creates resource records for the load balancer in the public hosted zone.</p>
+</div>
+<div class="paragraph">
+<p><strong>Option 2:</strong></p>
+</div>
+<div class="paragraph">
+<p>The user leaves the public hosted zone ID and subdomain parameters blank, but instead specifies the ARN(s) of certificates (either created by or imported in ACM) as input parameters to the Quickstart template. In this option, the Quickstart assumes that the user will manually provision the certificates and the resource record sets in the public hosted zone. The certificate ARN is used by the Quickstart when creating the load balancer listeners.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_deployment_options">Deployment options</h4>
@@ -1901,7 +1929,7 @@ and to share your customizations with others.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-07-20 07:38:46 UTC
+Last updated 2020-07-20 19:49:17 UTC
 </div>
 </div>
 </body>
