@@ -2,11 +2,6 @@
 	path = submodules/quickstart-aws-vpc
 	url = https://github.com/aws-quickstart/quickstart-aws-vpc.git
 	branch = master
-[submodule "submodules/quickstart-aws-acm-certificate"]
-	path = submodules/quickstart-aws-acm-certificate
-	url = git@github.com:aws-quickstart/quickstart-aws-acm-certificate.git
-	branch = master
-	ignore = untracked
 [submodule "submodules/lambda-copyzips"]
 	path = submodules/lambda-copyzips
 	url = git@github.com:aws-quickstart/lambda-copyzips.git
