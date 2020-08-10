@@ -6,3 +6,5 @@ This Quick Start provides two deployment options:
 * *Deploy {partner-product-name} into an existing VPC*. This option provisions {partner-product-name} in your existing AWS infrastructure.
 
 The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and {partner-product-name} settings, as discussed later in this guide.
+
+As an additional deployment option, you have the ability to upload a scripted configuration file for {partner-product-name} at the time of deployment. This file must be generated according to Duo documentation, which can be found here: https://duo.com/docs/dng-scripted-config. Once created, this configuration file will need to be uploaded to an Amazon S3 bucket and specified during deployment using the ConfigYAMLPath parameter. Typically, the scripted configuration option would be used in automated workflows and command line or programmatic methods of deploying this Quick Start. This supported scripted configuration is different than the scripted backup and restore feature also supported by {partner-product-name}.
