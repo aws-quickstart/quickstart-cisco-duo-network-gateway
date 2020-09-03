@@ -802,8 +802,8 @@ a img {
 <ul class="sectlevel2">
 <li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
-<li><a href="#_launch_into_a_new_vpc">Launch into a new VPC</a></li>
 <li><a href="#_launch_into_an_existing_vpc">Launch into an existing VPC</a></li>
+<li><a href="#_launch_into_a_new_vpc">Launch into a new VPC</a></li>
 </ul>
 </li>
 <li><a href="#_post_deployment_steps">Post deployment steps</a></li>
@@ -1288,32 +1288,9 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </div>
 </div>
 <div class="sect2">
-<h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
+<h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Availability Zone Configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Availability zones
-(<code>AvailabilityZones</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. VPC Network Configuration</caption>
+<caption class="title">Table 1. VPC Network Configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1334,33 +1311,39 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 CIDR for application load balancer
-(<code>PublicSubnet1CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).
+(<code>VPCID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 CIDR for application load balancer
-(<code>PublicSubnet2CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 ID for application load balancer
+(<code>PublicSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of Admin and Portal servers into (e.g., subnet-a0246dcd).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR for Duo Network Gateway servers
-(<code>PrivateSubnet1CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 ID for application load balancer
+(<code>PublicSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of Admin and Portal servers into (e.g., subnet-a0246dcd).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR for Duo Network Gateway servers
-(<code>PrivateSubnet2CIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID for Duo Network Gateway servers
+(<code>PrivateSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 that you want to provision the Admin and Portal Servers into (e.g., subnet-a0246dcd).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID for Duo Network Gateway servers
+(<code>PrivateSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 2 that you want to provision the Admin and Portal Servers into (e.g., subnet-a0234dcs).</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Duo Network Gateway Configuration</caption>
+<caption class="title">Table 2. Duo Network Gateway Configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1414,7 +1397,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
 (<code>DomainName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
@@ -1491,7 +1474,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. AWS Quick Start Configuration</caption>
+<caption class="title">Table 3. AWS Quick Start Configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1527,7 +1510,30 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </table>
 </div>
 <div class="sect2">
-<h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
+<h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Availability Zone Configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability zones
+(<code>AvailabilityZones</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.</p></td>
+</tr>
+</tbody>
+</table>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 5. VPC Network Configuration</caption>
 <colgroup>
@@ -1550,34 +1556,28 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).
-(<code>VPCID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 CIDR for application load balancer
+(<code>PublicSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 ID for application load balancer
-(<code>PublicSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of Admin and Portal servers into (e.g., subnet-a0246dcd).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 CIDR for application load balancer
+(<code>PublicSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 ID for application load balancer
-(<code>PublicSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of Admin and Portal servers into (e.g., subnet-a0246dcd).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR for Duo Network Gateway servers
+(<code>PrivateSubnet1CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID for Duo Network Gateway servers
-(<code>PrivateSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 that you want to provision the Admin and Portal Servers into (e.g., subnet-a0246dcd).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID for Duo Network Gateway servers
-(<code>PrivateSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 2 that you want to provision the Admin and Portal Servers into (e.g., subnet-a0234dcs).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR for Duo Network Gateway servers
+(<code>PrivateSubnet2CIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2</p></td>
 </tr>
 </tbody>
 </table>
@@ -1636,7 +1636,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
 (<code>DomainName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
@@ -1945,7 +1945,7 @@ and to share your customizations with others.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-08-27 12:33:11 UTC
+Last updated 2020-09-03 12:41:25 UTC
 </div>
 </div>
 </body>
