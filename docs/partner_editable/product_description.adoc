@@ -2,9 +2,8 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-With Duo Network Gateway your users can securely access your internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can also remotely SSH to configured hosts through Duo Network Gateway after installing Duo's connectivity tool, providing server access without a VPN.
+This Quick Start deploys {partner-product-name} on the AWS Cloud in high-availability mode with auto-scaling in a matter of minutes. 
 
-By deploying on the AWS Cloud using this Quick Start, Duo Network Gateway is deployed in the recommended active/active high-availability and auto-scaling deployment in a matter of minutes. This document provides IT infrastructure decision-makers and system administrators with technical guidance on how to deploy Duo Network Gateway on AWS, and outlines a reference architecture for a Duo Network Gateway deployment that addresses common scalability, high availability, and security requirements.
+With {partner-product-name}, users can securely access internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can remotely connect (via SSH) to configured hosts through {partner-product-name} after installing Duo's connectivity tool, providing server access without a virtual private network (VPN).
 
-For in-depth documentation on the features and functionality of Duo Network Gateway, please see https://duo.com/docs/dng[Duo Network Gateway documentation^].
-
+For more details about the features and functionality of {partner-product-name}, see the https://duo.com/docs/dng[Duo Network Gateway documentation^].
