@@ -2,4 +2,4 @@
 
 This Quick Start requires a license for Duo Beyond. If you do not currently have a license for Duo Beyond, you can get a trial license at https://signup.duo.com/
  
-The trial license gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.
+The trial license of Duo Beyond gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.

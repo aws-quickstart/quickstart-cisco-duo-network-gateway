@@ -1,14 +1,14 @@
-Deploying this Quick Start for a new virtual private cloud (VPC) with
-*default parameters* builds the following _{partner-product-name}_ environment in the
+Deploying this Quick Start for a new VPC with
+default parameters builds the following {partner-product-name} environment in the
 AWS Cloud.
 
 // Replace this example diagram with your own. Send us your source PowerPoint file. Be sure to follow our guidelines here : http://(we should include these points on our contributors giude)
 [#architecture1]
-.Quick Start architecture for _{partner-product-name}_ on AWS
+.Quick Start architecture for {partner-product-name} on AWS
 [link=images/architecture_diagram.png]
 image::../images/architecture_diagram.png[Architecture,width=648,height=439]
 
-As shown in Figure 1, the Quick Start sets up the following:
+As shown in figure 1, the Quick Start sets up the following:
 
 * A highly available architecture that spans two Availability Zones.*
 * A VPC configured with public and private subnets, according to AWS
@@ -16,20 +16,19 @@ best practices, to provide you with your own virtual network on AWS.*
 
 In the public subnets:
 
-* Managed network address translation (NAT) gateways to allow outbound
-internet access for resources in the private subnets.*
-* Application Load balancers to load balance traffic to the Duo Network Gateway Portal servers and the Duo Network Gateway Admin server.*
+* Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*
+* Application Load balancers to load balance traffic to the {partner-product-name} Portal servers and the {partner-product-name} Admin server.*
 
 In the private subnets:
 // Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram.
-* Duo Network Gateway Portal Servers which end-users will use to interface with Duo Network Gateway.
-* Duo Network Gateway Admin Server for configuring Duo Network Gateway.
-* An Elasticache Redis instance, which holds the configuration and state for Duo Network Gateway.
+* {partner-product-name} portal servers for providing end users access to product interface.
+* {partner-product-name} administration server for configuring {partner-product-name}.
+* An Amazon ElastiCache for Redis instance, which holds the configuration for {partner-product-name}.
 
-* An AWS Route53 Public Hosted Zone to traffic for the Duo Network Gateway domain and its subdomains.
-* SSL/TSL certificates in AWS Certificate Manager for the Duo Network Gateway Portal server and Duo Network Gateway Admin server load balancers.
-* AWS Systems Manager Session Manager to manage access to the Duo Network Gateway Portal and Duo Network Gateway Admin server.
-* Optional: Amazon S3 Bucket for Duo Network Gateway Portal server scripted deployment.
+* An Amazon Route 53 public hosted zone to route traffic for the {partner-product-name} domain and its subdomains.
+* SSL/TSL certificates in AWS Certificate Manager (ACM) for the {partner-product-name} portal server and administration server load balancers.
+* AWS Systems Manager to manage access to the {partner-product-name} portal and {partner-product-name} administration server.
+* (Optional) Amazon Simple Storage Service (Amazon S3) bucket for {partner-product-name} portal server scripted deployment.
 
 
 *The template that deploys the Quick Start into an existing VPC skips

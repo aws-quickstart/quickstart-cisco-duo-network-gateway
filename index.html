@@ -830,8 +830,8 @@ a img {
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>July, 2020</strong><br>
-<em>Jacob Julian - Cisco Systems Inc.</em><br>
+<p><strong>September, 2020</strong><br>
+<em>Jacob Julian, Cisco Systems Inc.</em><br>
 <em>Muffadal Quettawala and Shivansh Singh, Amazon Web Services</em></p>
 </div>
 <div class="admonitionblock tip text-left">
@@ -856,13 +856,10 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start reference deployment guide provides step-by-step instructions for deploying Duo Network Gateway on the AWS Cloud.</p>
+<p>This Quick Start reference deployment guide provides architectural considerations and configuration steps for deploying a Duo Network Gateway cluster on the AWS Cloud in high-availability mode with auto-scaling based on CPU load. The guide addresses common scalability, high-availability, and security requirements when adding Duo authentication to web applications and Secure Shell (SSH) connections on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>Meant for IT architects, Network Administrators, DevOps professionals, and owners of a company’s Duo instance who are planning to implement or extend their Duo Network Gateway deployment on the AWS Cloud, this Quick Start deployment guide discusses architectural considerations and configuration steps for deploying a Duo Network Gateway cluster on the Amazon Web Services (AWS) Cloud. It also provides links for viewing and launching AWS CloudFormation templates that automate the deployment.</p>
-</div>
-<div class="paragraph">
-<p>This Quick Start deployment will deploy the infrastructure necessary to add Duo authentication to web apps and SSH connections on the AWS Cloud. This Quick Start will deploy Duo Network Gateway on AWS Cloud in a high-availability mode and allow for auto-scaling based on CPU load.</p>
+<p>This guide is designed for mulitple audiences, including IT architects, network administrators, DevOps professionals, and Duo instance owners who are planning to implement or extend their Duo Network Gateway deployment on the AWS Cloud. It also provides links for viewing and launching AWS CloudFormation templates that automate the deployment.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -884,13 +881,13 @@ collaborated with AWS on the content of the Quick Start.
 <h2 id="_duo_network_gateway_on_aws">Duo Network Gateway on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With Duo Network Gateway your users can securely access your internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can also remotely SSH to configured hosts through Duo Network Gateway after installing Duo&#8217;s connectivity tool, providing server access without a VPN.</p>
+<p>This Quick Start deploys Duo Network Gateway on the AWS Cloud in high-availability mode with auto-scaling in a matter of minutes.</p>
 </div>
 <div class="paragraph">
-<p>By deploying on the AWS Cloud using this Quick Start, Duo Network Gateway is deployed in the recommended active/active high-availability and auto-scaling deployment in a matter of minutes. This document provides IT infrastructure decision-makers and system administrators with technical guidance on how to deploy Duo Network Gateway on AWS, and outlines a reference architecture for a Duo Network Gateway deployment that addresses common scalability, high availability, and security requirements.</p>
+<p>With Duo Network Gateway, users can securely access internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can remotely connect (via SSH) to configured hosts through Duo Network Gateway after installing Duo&#8217;s connectivity tool, providing server access without a virtual private network (VPN).</p>
 </div>
 <div class="paragraph">
-<p>For in-depth documentation on the features and functionality of Duo Network Gateway, please see <a href="https://duo.com/docs/dng" target="_blank" rel="noopener">Duo Network Gateway documentation</a>.</p>
+<p>For more details about the features and functionality of Duo Network Gateway, see the <a href="https://duo.com/docs/dng" target="_blank" rel="noopener">Duo Network Gateway documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -929,7 +926,7 @@ After you deploy the Quick Start, enable the <a href="https://docs.aws.amazon.co
 <p>This Quick Start requires a license for Duo Beyond. If you do not currently have a license for Duo Beyond, you can get a trial license at <a href="https://signup.duo.com/" class="bare">https://signup.duo.com/</a></p>
 </div>
 <div class="paragraph">
-<p>The trial license gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.</p>
+<p>The trial license of Duo Beyond gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.</p>
 </div>
 </div>
 </div>
@@ -937,18 +934,18 @@ After you deploy the Quick Start, enable the <a href="https://docs.aws.amazon.co
 <h2 id="_architecture">Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploying this Quick Start for a new virtual private cloud (VPC) with
-<strong>default parameters</strong> builds the following <em>Duo Network Gateway</em> environment in the
+<p>Deploying this Quick Start for a new VPC with
+default parameters builds the following Duo Network Gateway environment in the
 AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
 <a class="image" href="images/architecture_diagram.png"><img src="images/architecture_diagram.png" alt="Architecture" width="648" height="439"></a>
 </div>
-<div class="title">Figure 1. Quick Start architecture for <em>Duo Network Gateway</em> on AWS</div>
+<div class="title">Figure 1. Quick Start architecture for Duo Network Gateway on AWS</div>
 </div>
 <div class="paragraph">
-<p>As shown in Figure 1, the Quick Start sets up the following:</p>
+<p>As shown in figure 1, the Quick Start sets up the following:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -967,8 +964,7 @@ best practices, to provide you with your own virtual network on AWS.*</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed network address translation (NAT) gateways to allow outbound
-internet access for resources in the private subnets.*</p>
+<p>Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*</p>
 </li>
 <li>
 <p>Application Load balancers to load balance traffic to the Duo Network Gateway Portal servers and the Duo Network Gateway Admin server.*</p>
@@ -977,23 +973,23 @@ internet access for resources in the private subnets.*</p>
 </div>
 <div class="paragraph">
 <p>In the private subnets:
-* Duo Network Gateway Portal Servers which end-users will use to interface with Duo Network Gateway.
-* Duo Network Gateway Admin Server for configuring Duo Network Gateway.
-* An Elasticache Redis instance, which holds the configuration and state for Duo Network Gateway.</p>
+* Duo Network Gateway portal servers for providing end users access to product interface.
+* Duo Network Gateway administration server for configuring Duo Network Gateway.
+* An Amazon ElastiCache for Redis instance, which holds the configuration for Duo Network Gateway.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>An AWS Route53 Public Hosted Zone to traffic for the Duo Network Gateway domain and its subdomains.</p>
+<p>An Amazon Route 53 public hosted zone to route traffic for the Duo Network Gateway domain and its subdomains.</p>
 </li>
 <li>
-<p>SSL/TSL certificates in AWS Certificate Manager for the Duo Network Gateway Portal server and Duo Network Gateway Admin server load balancers.</p>
+<p>SSL/TSL certificates in AWS Certificate Manager (ACM) for the Duo Network Gateway portal server and administration server load balancers.</p>
 </li>
 <li>
-<p>AWS Systems Manager Session Manager to manage access to the Duo Network Gateway Portal and Duo Network Gateway Admin server.</p>
+<p>AWS Systems Manager to manage access to the Duo Network Gateway portal and Duo Network Gateway administration server.</p>
 </li>
 <li>
-<p>Optional: Amazon S3 Bucket for Duo Network Gateway Portal server scripted deployment.</p>
+<p>(Optional) Amazon Simple Storage Service (Amazon S3) bucket for Duo Network Gateway portal server scripted deployment.</p>
 </li>
 </ul>
 </div>
@@ -1179,7 +1175,7 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 <p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and Duo Network Gateway settings, as discussed later in this guide.</p>
 </div>
 <div class="paragraph">
-<p>As an additional deployment option, you have the ability to upload a scripted configuration file for Duo Network Gateway at the time of deployment. This file must be generated according to Duo documentation, which can be found here: <a href="https://duo.com/docs/dng-scripted-config" class="bare">https://duo.com/docs/dng-scripted-config</a>. Once created, this configuration file will need to be uploaded to an Amazon S3 bucket and specified during deployment using the ConfigYAMLPath parameter. Typically, the scripted configuration option would be used in automated workflows and command line or programmatic methods of deploying this Quick Start. This supported scripted configuration is different than the scripted backup and restore feature also supported by Duo Network Gateway.</p>
+<p>As an additional deployment option, you can upload a scripted configuration file for Duo Network Gateway at the time of deployment. This file must be generated according to <a href="https://duo.com/docs/dng-scripted-config">Duo documentation</a>. Once created, the file must be uploaded to an Amazon S3 bucket and specified during deployment using the ConfigYAMLPath parameter. Typically, the scripted configuration option is used in automated workflows and command-line or programmatic methods of deploying this Quick Start. This supported scripted configuration is different than the scripted backup and restore feature, which is also supported by Duo Network Gateway.</p>
 </div>
 </div>
 </div>
@@ -1193,7 +1189,7 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Sign in to your AWS account at <a href="https://aws.amazon.com" class="bare">https://aws.amazon.com</a> with an IAM user role that has the necessary permissions. For details, see <a href="#_planning_the_deployment">Planning the deployment</a> earlier in this guide.</p>
+<p>Sign in to your AWS account at <a href="https://aws.amazon.com" class="bare">https://aws.amazon.com</a> with an AWS Identity and Access Management (IAM) user role that has the necessary permissions. For details, see <a href="#_planning_the_deployment">Planning the deployment</a> earlier in this guide.</p>
 </li>
 <li>
 <p>Make sure that your AWS account is configured correctly, as discussed in the <a href="#_technical_requirements">Technical requirements</a> section.</p>
@@ -1945,7 +1941,7 @@ and to share your customizations with others.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-09-03 12:41:25 UTC
+Last updated 2020-09-08 20:20:54 UTC
 </div>
 </div>
 </body>
