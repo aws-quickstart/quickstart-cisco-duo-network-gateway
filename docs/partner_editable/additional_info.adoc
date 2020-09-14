@@ -5,6 +5,7 @@
 // If steps are required to test the deployment, add them here. If not, remove the heading
 
 After the Quick Start has been successfully created, you can interact with {partner-product-name} from a web browser. Perform the following steps:
+
 . Open a browser, navigate to https://<URL-of-the-network-gateway-load-balancer>:8443 from a network in the AdminServerRemoteAccessCIDR subnet, and log in to the {partner-product-name} admin console. Your browser warns you about an untrusted certificate the first time you access the page. Dismiss the warning and continue to the page. 
 . On the first page of the {partner-product-name} configuration screen, choose a password for the {partner-product-name} admin console. After entering a password that meets the requirements, choose *Save* and *Continue*.
 
@@ -15,6 +16,7 @@ image::../images/set_dng_password.png[set_dng_password,width=439,height=648]
 image::../images/dng_config.png[dng_config,width=239,height=648]
 
 Note the following recommendations when filling in the fields:
+
 * As this Quick Start uses load balancers that present SSL to end users, you can use a certificate for the connection between the load balance and {partner-product-name}. There are two options for providing this certificate:
 ** If you want to provide your own SSL certificate for {partner-product-name}, choose *Change Certificate* and select *Provide my own certificate*. 
 ** If you want to use self-signed certificates for the {partner-product-name} server, choose the *Present a self-signed certificate to incoming connections* option.
