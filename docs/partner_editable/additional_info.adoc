@@ -11,6 +11,7 @@ After the Quick Start has been successfully created, you can interact with {part
 
 image::../images/set_dng_password.png[set_dng_password,width=439,height=648]
 
+[start=3]
 . On the *Make {partner-product-name} visible to the internet* page, either fill in the fields, as shown in the following image, or choose the *Already have a {partner-product-name} configuration file? Import it now* link to import a configuration file.
 
 image::../images/dng_config.png[dng_config,width=239,height=648]
