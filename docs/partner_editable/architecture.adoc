@@ -1,6 +1,4 @@
-Deploying this Quick Start for a new VPC with
-default parameters builds the following {partner-product-name} environment in the
-AWS Cloud.
+Deploying this Quick Start for a new VPC with default parameters builds the following {partner-product-name} environment in the AWS Cloud.
 
 // Replace this example diagram with your own. Send us your source PowerPoint file. Be sure to follow our guidelines here : http://(we should include these points on our contributors giude)
 [#architecture1]
@@ -19,7 +17,7 @@ best practices, to provide you with your own virtual network on AWS.*
 ** {partner-product-name} portal servers for providing end users access to the product interface.
 ** A {partner-product-name} admin server for completing configuration tasks. 
 ** An Amazon ElastiCache for Redis instance with a Redis replication group for storing the configuration for {partner-product-name}.
-* Elastic Load Balancing used with an AWS Auto Scaling group to distribute traffic to the {partner-product-name} portal and admin servers.
+* Elastic Load Balancing for accepting incoming traffic for the {partner-product-name} admin server and then distributing that traffic to the {partner-product-name} portal servers using an AWS Auto Scaling group. 
 * An Amazon Route 53 public hosted zone to route traffic for the {partner-product-name} domain and its subdomains.
 * SSL/TSL certificates in AWS Certificate Manager (ACM) for the {partner-product-name} portal and admin server load balancers.
 * AWS Systems Manager to manage access to the {partner-product-name} portal and admin servers.
