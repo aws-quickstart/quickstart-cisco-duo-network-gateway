@@ -768,14 +768,14 @@ a img {
     border: 1px solid #A4A4A4;
 }
 
-.preview_mode {
+#preview_mode {
 	border-color:#e0e0dc;
 	-webkit-box-shadow:0 1px 4px #e0e0dc;
 	box-shadow:0 1px 4px #e0e0dc;
   background:#ffffb3;
   padding-bottom: 2rem;
 }
-.preview_mode .tableblock {
+#preview_mode .tableblock {
   background:#ffffb3;
 }
 </style>
@@ -800,19 +800,17 @@ a img {
 </li>
 <li><a href="#_deployment_steps">Deployment steps</a>
 <ul class="sectlevel2">
-<li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
-<li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
 <li><a href="#_launch_into_a_new_vpc">Launch into a new VPC</a></li>
 <li><a href="#_launch_into_an_existing_vpc">Launch into an existing VPC</a></li>
 </ul>
 </li>
-<li><a href="#_post_deployment_steps">Post deployment steps</a></li>
-<li><a href="#_security">Security</a></li>
-<li><a href="#_faq">FAQ</a></li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
 <li><a href="#_quick_start_reference_deployments">Quick Start reference deployments</a></li>
-<li><a href="#_github_repository">GitHub repository</a></li>
+<li><a href="#_github_repository">GitHub repository</a>
+<ul class="sectlevel3">
 <li><a href="#_notices">Notices</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -823,15 +821,28 @@ a img {
 <h2 id="_quick_start_reference_deployment" class="discrete text-left text-center">Quick Start Reference Deployment</h2>
 <div class="imageblock text-center">
 <div class="content">
-<img src="images/aws-quickstart-graphic.png" alt="QS" width="80" height="80">
+<img src="https://aws-quickstart.s3.amazonaws.com/quickstart-cisco-duo-network-gateway/docs/boilerplate/.images/aws-quickstart-graphic.png" alt="QS" width="80" height="80">
 </div>
 </div>
-<div class="paragraph text-center">
+<h3 id="_draft_document_unofficial_guidance" class="discrete text-center">DRAFT DOCUMENT / UNOFFICIAL GUIDANCE</h3>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/__settings</em>.adoc</code></strong>_</p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph text-center">
 <p><strong>September, 2020</strong><br>
 <em>Jacob Julian, Cisco Systems Inc.</em><br>
 <em>Muffadal Quettawala and Shivansh Singh, Amazon Web Services</em></p>
-</div>
-<div class="admonitionblock tip text-left">
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
@@ -853,11 +864,23 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start reference deployment guide provides architectural considerations and configuration steps for deploying a Duo Network Gateway cluster on the AWS Cloud in high-availability mode with auto-scaling based on CPU load. The guide addresses common scalability, high-availability, and security requirements when adding Duo authentication to web applications and Secure Shell (SSH) connections on the AWS Cloud.</p>
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/overview_target_and_usage.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>This Quick Start reference deployment guide provides architectural considerations and configuration steps for deploying a Duo Network Gateway cluster on the AWS Cloud in high-availability mode with scaling based on CPU load. The guide addresses common scalability, high-availability, and security requirements when adding Duo authentication to web applications and Secure Shell (SSH) connections on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
 <p>This guide is designed for mulitple audiences, including IT architects, network administrators, DevOps professionals, and Duo instance owners who are planning to implement or extend their Duo Network Gateway deployment on the AWS Cloud. It also provides links for viewing and launching AWS CloudFormation templates that automate the deployment.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -878,14 +901,26 @@ collaborated with AWS on the content of the Quick Start.
 <h2 id="_duo_network_gateway_on_aws">Duo Network Gateway on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start deploys Duo Network Gateway on the AWS Cloud in high-availability mode with auto-scaling in a matter of minutes.</p>
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/product_description.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>This Quick Start deploys Duo Network Gateway on the AWS Cloud in high-availability mode with scaling in a matter of minutes.</p>
 </div>
 <div class="paragraph">
 <p>With Duo Network Gateway, users can securely access internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can remotely connect (via SSH) to configured hosts through Duo Network Gateway after installing Duo&#8217;s connectivity tool, providing server access without a virtual private network (VPN).</p>
 </div>
 <div class="paragraph">
 <p>For more details about the features and functionality of Duo Network Gateway, see the <a href="https://duo.com/docs/dng" target="_blank" rel="noopener">Duo Network Gateway documentation</a>.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -920,24 +955,43 @@ After you deploy the Quick Start, enable the <a href="https://docs.aws.amazon.co
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/licenses.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This Quick Start requires a license for Duo Beyond. If you do not currently have a license for Duo Beyond, you can get a trial license at <a href="https://signup.duo.com/" class="bare">https://signup.duo.com/</a></p>
 </div>
 <div class="paragraph">
 <p>The trial license of Duo Beyond gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_architecture">Architecture</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploying this Quick Start for a new VPC with
-default parameters builds the following Duo Network Gateway environment in the
-AWS Cloud.</p>
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/architecture.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Deploying this Quick Start for a new VPC with default parameters builds the following Duo Network Gateway environment in the AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
-<a class="image" href="images/architecture_diagram.png"><img src="images/architecture_diagram.png" alt="Architecture" width="648" height="439"></a>
+<a class="image" href="images/CDNG-architecture-diagram.png"><img src="images/CDNG-architecture-diagram.png" alt="Architecture" width="648" height="439"></a>
 </div>
 <div class="title">Figure 1. Quick Start architecture for Duo Network Gateway on AWS</div>
 </div>
@@ -953,37 +1007,36 @@ AWS Cloud.</p>
 <p>A VPC configured with public and private subnets, according to AWS
 best practices, to provide you with your own virtual network on AWS.*</p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In the public subnets:</p>
-</div>
+<li>
+<p>In the public subnets, managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*</p>
+</li>
+<li>
+<p>In the private subnets:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*</p>
+<p>Duo Network Gateway portal servers for providing end users access to the product interface.</p>
 </li>
 <li>
-<p>Application Load balancers to load balance traffic to the Duo Network Gateway Portal servers and the Duo Network Gateway Admin server.*</p>
+<p>A Duo Network Gateway admin server for completing configuration tasks.</p>
+</li>
+<li>
+<p>An Amazon ElastiCache for Redis instance with a Redis replication group for storing the configuration for Duo Network Gateway.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>In the private subnets:
-* Duo Network Gateway portal servers for providing end users access to product interface.
-* Duo Network Gateway administration server for configuring Duo Network Gateway.
-* An Amazon ElastiCache for Redis instance, which holds the configuration for Duo Network Gateway.</p>
-</div>
-<div class="ulist">
-<ul>
+</li>
+<li>
+<p>Elastic Load Balancing for accepting incoming traffic for the Duo Network Gateway admin server and then distributing that traffic to the Duo Network Gateway portal servers using an AWS Auto Scaling group.</p>
+</li>
 <li>
 <p>An Amazon Route 53 public hosted zone to route traffic for the Duo Network Gateway domain and its subdomains.</p>
 </li>
 <li>
-<p>SSL/TSL certificates in AWS Certificate Manager (ACM) for the Duo Network Gateway portal server and administration server load balancers.</p>
+<p>SSL/TSL certificates in AWS Certificate Manager (ACM) for the Duo Network Gateway portal and admin server load balancers.</p>
 </li>
 <li>
-<p>AWS Systems Manager to manage access to the Duo Network Gateway portal and Duo Network Gateway administration server.</p>
+<p>AWS Systems Manager to manage access to the Duo Network Gateway portal and admin servers.</p>
 </li>
 <li>
 <p>(Optional) Amazon Simple Storage Service (Amazon S3) bucket for Duo Network Gateway portal server scripted deployment.</p>
@@ -994,7 +1047,10 @@ best practices, to provide you with your own virtual network on AWS.*</p>
 <p>*The template that deploys the Quick Start into an existing VPC skips
 the components marked by asterisks and prompts you for your existing VPC
 configuration.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -1012,8 +1068,20 @@ deploy, and operate your infrastructure and applications on the AWS
 Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with basic concepts of networking and Linux system administration, as well as basic knowledge of Duo Security.</p>
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/specialized_knowledge.adoc</code></strong></em></p>
 </div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>This Quick Start assumes familiarity with basic concepts of networking and Linux system administration, as well as basic knowledge of Duo Security.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_aws_account">AWS account</h3>
@@ -1034,6 +1102,10 @@ Cloud.</p>
 <div class="paragraph">
 <p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might need to request increases if your existing deployment currently uses these resources, and this Quick Start deployment could result in exceeding the default quotas. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see the <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">AWS documentation</a>.</p>
 </div>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/service_limits.adoc</code></strong></em></p>
+</div>
+<div id="preview_mode">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1085,14 +1157,20 @@ Cloud.</p>
 </tbody>
 </table>
 </div>
+</div>
 <div class="sect3">
 <h4 id="_supported_regions">Supported Regions</h4>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/regions.adoc</code></strong></em></p>
+</div>
+<div id="preview_mode">
 <div class="ulist">
 <ul>
 <li>
 <p>All AWS Regions</p>
 </li>
 </ul>
+</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1109,6 +1187,13 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 </div>
 <div class="sect3">
 <h4 id="_ec2_key_pairs">EC2 key pairs</h4>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><em>This section is conditional on EC2 instances being used in the Cloudformation Templates</em></p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Make sure that at least one <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pair</a> exists in your AWS account in the Region where you plan to deploy the Quick Start. Make note of the key pair name. You need it during deployment. To create a key pair, follow the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">instructions in the AWS documentation</a>.</p>
 </div>
@@ -1125,6 +1210,15 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 <p>The <em>AdministratorAccess</em> managed policy within IAM provides sufficient permissions, although your organization may choose to use a custom policy with more restrictions.</p>
 </div>
 <div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/pre-reqs.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This Quickstart assumes that the user has:</p>
 </div>
 <div class="olist arabic">
@@ -1151,11 +1245,23 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 </div>
 <div class="paragraph">
 <p>The user leaves the public hosted zone ID and subdomain parameters blank, but instead specifies the ARN(s) of certificates (either created by or imported in ACM) as input parameters to the Quickstart template. In this option, the Quickstart assumes that the user will manually provision the certificates and the resource record sets in the public hosted zone. The certificate ARN is used by the Quickstart when creating the load balancer listeners.</p>
-</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_deployment_options">Deployment options</h4>
 <div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/deployment_options.adoc</code></strong></em></p>
+</div>
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This Quick Start provides two deployment options:</p>
 </div>
 <div class="ulist">
@@ -1172,8 +1278,11 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 <p>The Quick Start provides separate templates for these options. It also lets you configure Classless Inter-Domain Routing (CIDR) blocks, instance types, and Duo Network Gateway settings, as discussed later in this guide.</p>
 </div>
 <div class="paragraph">
-<p>As an additional deployment option, you can upload a scripted configuration file for Duo Network Gateway at the time of deployment. This file must be generated according to <a href="https://duo.com/docs/dng-scripted-config">Duo documentation</a>. Once created, the file must be uploaded to an Amazon S3 bucket and specified during deployment using the ConfigYAMLPath parameter. Typically, the scripted configuration option is used in automated workflows and command-line or programmatic methods of deploying this Quick Start. This supported scripted configuration is different than the scripted backup and restore feature, which is also supported by Duo Network Gateway.</p>
-</div>
+<p>As an additional deployment option, you can upload a scripted configuration file for Duo Network Gateway at the time of deployment. This file must be generated according to <a href="https://duo.com/docs/dng-scripted-config" target="_blank" rel="noopener">Duo documentation</a>. Once created, the file must be uploaded to an Amazon S3 bucket and specified during deployment using the 'ConfigYAMLPath' parameter. Typically, the scripted configuration option is used in automated workflows and command-line or programmatic methods of deploying this Quick Start. This supported scripted configuration is different than the scripted backup and restore feature, which is also supported by Duo Network Gateway.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1181,8 +1290,14 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 <div class="sect1">
 <h2 id="_deployment_steps">Deployment steps</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_sign_in_to_your_aws_account">Sign in to your AWS account</h3>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/deploy_steps.adoc</code></strong></em></p>
+</div>
+<div id="preview_mode" class="openblock">
+<div class="content">
+<div class="paragraph">
+<p>=== Sign in to your AWS account</p>
+</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1193,9 +1308,9 @@ Certain Regions are available on an opt-in basis. Refer to the AWS Documentation
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>=== Launch the Quick Start</p>
 </div>
-<div class="sect2">
-<h3 id="_launch_the_quick_start">Launch the Quick Start</h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1221,10 +1336,10 @@ You are responsible for the cost of the AWS services used while running this Qui
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://qs_launch_link" target="_blank" rel="noopener">Deploy Duo Network Gateway into a new VPC on AWS</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://fwd.aws/vjaWP" target="_blank" rel="noopener">Deploy Duo Network Gateway into a new VPC on AWS</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://qs_launch_link" target="_blank" rel="noopener">Deploy Duo Network Gateway into an existing VPC on AWS</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://fwd.aws/VwgQP" target="_blank" rel="noopener">Deploy Duo Network Gateway into an existing VPC on AWS</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1235,13 +1350,13 @@ You are responsible for the cost of the AWS services used while running this Qui
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you’re deploying Duo Network Gateway into an existing VPC, make sure that your VPC has two private subnets in different Availability Zones for the workload instances, and that the subnets aren’t shared. This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>. These subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a> in their route tables, to allow the instances to download packages and software without exposing them to the internet.
+If you’re deploying Duo Network Gateway into an existing VPC, make sure that your VPC has two private subnets in different Availability Zones for the workload instances, and that the subnets aren’t shared. This Quick Start doesn’t support <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html" target="_blank" rel="noopener">shared subnets</a>. These subnets require <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" target="_blank" rel="noopener">NAT gateways</a> in their route tables to allow the instances to download packages and software without exposing them to the internet.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Also, make sure that the domain name option in the DHCP options is configured as explained in the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">Amazon VPC documentation</a>. You provide your VPC settings when you launch the Quick Start.</p>
+<p>Also, make sure that the domain name option in the DHCP options is configured according to the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html" target="_blank" rel="noopener">Amazon VPC documentation</a>. You will provide your VPC settings when you launch the Quick Start.</p>
 </div>
 <div class="paragraph">
 <p>Each deployment takes about 15 minutes to complete.</p>
@@ -1249,7 +1364,7 @@ If you’re deploying Duo Network Gateway into an existing VPC, make sure that y
 <div class="olist arabic">
 <ol class="arabic" start="2">
 <li>
-<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This is where the network infrastructure for Duo Network Gateway will be built. The template is launched in the us-east-1 Region by default.</p>
+<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for Duo Network Gateway is built. The template is launched in the us-east-1 Region by default.</p>
 </li>
 </ol>
 </div>
@@ -1262,6 +1377,8 @@ If you’re deploying Duo Network Gateway into an existing VPC, make sure that y
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary.</p>
 </li>
 </ol>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>In the following tables, parameters are listed by category and described separately for the deployment options. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
@@ -1278,7 +1395,6 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </td>
 </tr>
 </table>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
@@ -1370,7 +1486,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
 (<code>ACMSSLCertificateArn</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.</p></td>
 </tr>
 <tr>
@@ -1388,7 +1504,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'
 (<code>AdminServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'</p></td>
 </tr>
 <tr>
@@ -1400,19 +1516,19 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket path of the Duo Network Gateway config file
 (<code>ConfigYAMLPath</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) S3 bucket path of the scripted configuration YAML file. (E.g. <a href="https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml" class="bare">https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml</a>)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
 (<code>DomainName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
 (<code>HostedZoneID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.</p></td>
 </tr>
 <tr>
@@ -1454,7 +1570,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'
 (<code>PortalServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'</p></td>
 </tr>
 <tr>
@@ -1472,7 +1588,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
 (<code>SnapshotName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).</p></td>
 </tr>
 <tr>
@@ -1592,7 +1708,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.
 (<code>ACMSSLCertificateArn</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.</p></td>
 </tr>
 <tr>
@@ -1610,7 +1726,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'
 (<code>AdminServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then FQDN for admin server will be 'adminserver.corp.com'</p></td>
 </tr>
 <tr>
@@ -1628,13 +1744,13 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.
 (<code>DomainName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.
 (<code>HostedZoneID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.</p></td>
 </tr>
 <tr>
@@ -1676,7 +1792,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'
 (<code>PortalServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then FQDN for portal server will be 'portalserver.corp.com'</p></td>
 </tr>
 <tr>
@@ -1694,7 +1810,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
 (<code>SnapshotName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).</p></td>
 </tr>
 <tr>
@@ -1765,40 +1881,42 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </div>
 <div class="title">Figure 2. Duo Network Gateway outputs after successful deployment</div>
 </div>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/additional_info.adoc</code></strong></em></p>
 </div>
-</div>
-</div>
-<div class="sect1">
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="sect1">
 <h2 id="_post_deployment_steps">Post deployment steps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Once the Quick Start has been successfully created, you may now interact with Duo Network Gateway from a web browser. In a browser navigate to <a href="https://URL-OF-NETWORK-GATEWAY-LOAD-BALANCER:8443" class="bare">https://URL-OF-NETWORK-GATEWAY-LOAD-BALANCER:8443</a> from a network in the AdminServerRemoteAccessCIDR subnet to log into the Duo Network Gateway admin console. Your browser will warn you about an untrusted certificate the first time you access the page. Dismiss the warning and continue onto the page.</p>
+<p>After the Quick Start has been successfully created, you can interact with Duo Network Gateway from a web browser. Perform the following steps:</p>
 </div>
-<div class="paragraph">
-<p>The first page of the Duo Network Gateway setup screen will ask you to choose a password for the Duo Network Gateway admin console. Once you&#8217;ve entered a password that meets the requirements, click Save and Continue.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In a browser, navigate to <a href="https://&lt;URL-of-the-network-gateway-load-balancer&gt;:8443" class="bare">https://&lt;URL-of-the-network-gateway-load-balancer&gt;:8443</a> from a network in the 'AdminServerRemoteAccessCIDR' subnet, and log in to the Duo Network Gateway admin console. Your browser warns you about an untrusted certificate the first time you access the page. Dismiss the warning and continue to the page.</p>
+</li>
+<li>
+<p>On the first page of the Duo Network Gateway configuration screen, choose a password for the Duo Network Gateway admin console. After entering a password that meets the requirements, choose <strong>Save</strong> and <strong>Continue</strong>.</p>
+</li>
+</ol>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/set_dng_password.png" alt="set_dng_password" width="439" height="648">
 </div>
 </div>
-<div class="paragraph">
-<p>On the "Make Duo Network Gateway visible to the internet" page fill in the following fields. You can also click the "Already have a Duo Network Gateway configuration file? Import it now.</p>
-</div>
-<div class="paragraph">
-<p>As this Quick Start uses load balancers presenting SSL to end-users, you have the option to additionally utilize a certificate for the connection between the load balance and the Duo Network Gateway. There are two options for providing this certificate.</p>
-</div>
-<div class="paragraph">
-<p>If you would like to supply your own SSL certificate for DNG, click <strong>Change Certificate</strong> to select <strong>Provide my own certificate</strong>.</p>
-</div>
-<div class="paragraph">
-<p>You also have the option of using self-signed certificates for the Duo Network Gateway server. If you would like to do this, you can select the <strong>Present a self-signed certificate to incoming connections</strong> option.</p>
-</div>
-<div class="paragraph">
-<p>Check the box next to <strong>This Duo Network Gateway is accessed through load balancers</strong>. Specify the internal IP addresses of your DNG portal server load balancer,  found in the outputs section of the Quick Start. This setting makes the Duo Network Gateway aware of the Load Balancer IP addresses and as a result allows the use of the source client IP addresses for logging, applying allowed IP restrictions, and passing IP addresses to protected applications.</p>
-</div>
-<div class="paragraph">
-<p>If all information isn&#8217;t entered completely and correctly or this initial configuration fails to save you&#8217;ll need to re-enter the information again before proceeding, including selection of the certificate and key.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the <strong>Make Duo Network Gateway visible to the internet</strong> page, either fill in the fields, as shown in the following image, or choose the <strong>Already have a Duo Network Gateway configuration file? Import it now</strong> link to import a configuration file.</p>
+</li>
+</ol>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1806,15 +1924,41 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </div>
 </div>
 <div class="paragraph">
-<p>Click <strong>Save and Continue</strong>. Saving your configuration redirects you to the Duo Network Gateway admin console. At this point you will have the basic management configuration completed for Duo Network Gateway; you may proceed to add a SAML Authentication Source, and then configure Duo Network Gateway to proxy the applications you wish to add Duo policies to.</p>
+<p>Note the following recommendations when filling in the fields:</p>
 </div>
-<div class="paragraph">
-<p>At this point you can follow the official <a href="https://duo.com/docs/dng#configure-the-duo-network-gateway-authentication-source" target="_blank" rel="noopener">Duo documentation</a>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>As this Quick Start uses load balancers that present SSL security to end users, you can use a certificate for the connection between the load balance and Duo Network Gateway. There are two options for providing this certificate:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If you want to provide your own SSL certificate for Duo Network Gateway, choose <strong>Change Certificate</strong> and select <strong>Provide my own certificate</strong>.</p>
+</li>
+<li>
+<p>If you want to use self-signed certificates for the Duo Network Gateway server, choose the <strong>Present a self-signed certificate to incoming connections</strong> option.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>After selecting the <strong>This Duo Network Gateway is accessed through load balancers</strong> check box, specify the internal IP addresses of your Duo Network Gateway portal server load balancer, which you can locate in the <strong>Outputs</strong> section of the Quick Start. This setting makes the Duo Network Gateway aware of the load balancer IP addresses, which allows the source client IP addresses to log information, apply allowed IP restrictions, and pass IP addresses to protected applications.</p>
+</li>
+<li>
+<p>Be sure to provide complete and accurate information on this page to avoid errors with the initial configuration. If an error occurs, you will need to re-enter the information again before proceeding, including selecting the certificate and key.</p>
+</li>
+<li>
+<p>When you choose <strong>Save and Continue</strong>, you are redirected to the Duo Network Gateway admin console, where you can add a SAML authentication source and configure Duo Network Gateway to proxy the applications for adding Duo policies.</p>
+</li>
+</ul>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/welcome.png" alt="welcome" width="439" height="648">
 </div>
+</div>
+<div class="paragraph">
+<p>For additional information, access the <a href="https://duo.com/docs/dng#configure-the-duo-network-gateway-authentication-source" target="_blank" rel="noopener">Duo documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -1822,39 +1966,51 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <h2 id="_security">Security</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Quickstart exposes two user-configurable security group access parameters, AdminServerRemoteAccessCIDR and PortalServerRemoteAccessCIDR. It is imperative that the AdminServerRemoteAccessCIDR should be accessible only on authorized network ranges for both ports 22 and 8443 and NOT widely internet accessible.</p>
+<p>The Quick Start exposes two user-configurable security group access parameters: 'AdminServerRemoteAccessCIDR' and 'PortalServerRemoteAccessCIDR'. Be sure that the 'AdminServerRemoteAccessCIDR' parameter 'is accessible only on authorized network ranges for both ports 22 and 8443, not widely accessible on the internet.</p>
 </div>
 </div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em><strong>This portion of the deployment guide is located at <code>docs/partner_editable/faq_troubleshooting.adoc</code></strong></em></p>
 </div>
-<div class="sect1">
+<table id="preview_mode" class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="sect1">
 <h2 id="_faq">FAQ</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>Q.</strong> How do I output Duo Network Gateway Docker logs to a file?</p>
+<p><strong>Q.</strong> How do I output Duo Network Gateway docker logs to a file?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> To export the logs, SSH into the Duo Network Gateway (DNG) server and run the following command. You may need to replace the example DNG YML name with your current file&#8217;s actual name:</p>
+<p><strong>A.</strong> To export the logs, connect via SSH to the Duo Network Gateway server and run the following command. You may need to replace the example Duo Network Gateway YML name with the name of your current file:</p>
 </div>
 <div class="paragraph">
 <p><code>docker-compose -p network-gateway -f network-gateway-1.5.5.yml logs &gt; Dng.log</code></p>
 </div>
 <div class="paragraph">
-<p>This will now export everything to a Dng.log file outside of your Docker Container. Once you are done exporting your logs you can cancel the log by pressing <strong>Ctrl + C</strong>.</p>
+<p>After running the command, a Dng.log file is exported outside of your docker container. After exporting your logs, you can cancel the log by pressing <strong>Ctrl + C</strong>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> Can I bulk-create web applications for Duo Network Gateway?</p>
+<p><strong>Q.</strong> Can I create web applications for Duo Network Gateway in bulk?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> Yes. You can configure Duo Network Gateway (DNG) using a configuration file so that you can bulk-create web applications, store your settings locally in source control, automatically deploy, and make changes to Duo Network Gateway without having to access the Admin console.</p>
+<p><strong>A.</strong> Yes. You can use a configuration file to create web applications in bulk, store your settings locally in source control, automatically deploy the applications, and make changes to Duo Network Gateway without having to access the admin console.</p>
 </div>
 <div class="paragraph">
-<p>Please see the documentation: <a href="https://duo.com/docs/dng-scripted-config" target="_blank" rel="noopener">Scripted Configuration for Duo Network Gateway</a>.</p>
+<p>For more information, see <a href="https://duo.com/docs/dng-scripted-config" target="_blank" rel="noopener">Scripted Configuration for Duo Network Gateway</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> How do I determine the current version number of the Duo Network Gateway?</p>
+<p><strong>Q.</strong> How do I determine the current version number of Duo Network Gateway?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> To determine the current version number of the Duo Network Gateway, log into the Duo Network Gateway Admin Console and check the footer:</p>
+<p><strong>A.</strong> To determine the current version number of Duo Network Gateway, log in to the Duo Network Gateway admin console and check the footer:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1862,16 +2018,16 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> How to interpret and troubleshoot Duo Network Gateway issues.</p>
+<p><strong>Q.</strong> How do I interpret and troubleshoot Duo Network Gateway issues?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> Please see the <a href="https://help.duo.com/s/article/dng-issues-guide?language=en_US" target="_blank" rel="noopener">official Duo Security Knowledge Base</a> for a list of common error messages with their meaning and resolution.</p>
+<p><strong>A.</strong> For a list of common error messages with descriptions and resolutions, see the <a href="https://help.duo.com/s/article/dng-issues-guide?language=en_US" target="_blank" rel="noopener">official Duo Security Knowledge Base</a>.</p>
 </div>
 <div class="paragraph">
-<p><strong>Q.</strong> I encountered a <strong>CREATE_FAILED</strong> error when I launched the Quick Start.</p>
+<p><strong>Q.</strong> I encountered a <strong>CREATE_FAILED</strong> error when I launched the Quick Start. What should I do?</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> If AWS CloudFormation fails to create the stack, we recommend that you relaunch the template with <strong>Rollback on failure</strong> set to <strong>No</strong>. (This setting is under <strong>Advanced</strong> in the AWS CloudFormation console, <strong>Options</strong> page.) With this setting, the stack’s state is retained and the instance is left running, so you can troubleshoot the issue. (For Windows, look at the log files in %ProgramFiles%\Amazon\EC2ConfigService and C:\cfn\log.)</p>
+<p><strong>A.</strong> If AWS CloudFormation fails to create the stack, relaunch the template with the <strong>Rollback on failure</strong> option set to <strong>No</strong>. (This setting is under <strong>Advanced</strong> in the AWS CloudFormation console on the <strong>Options</strong> page.) With this setting, the stack’s state is retained, and the instance is left running, so you can troubleshoot the issue. (For Windows, look at the log files in %ProgramFiles%\Amazon\EC2ConfigService and C:\cfn\log.)</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1880,7 +2036,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, you continue to incur AWS charges for this stack. Please make sure to delete the stack when you finish troubleshooting.
+When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, you continue to incur AWS charges for this stack. Be sure to delete the stack when you finish troubleshooting.
 </td>
 </tr>
 </table>
@@ -1892,7 +2048,13 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <p><strong>Q.</strong> I encountered a size limitation error when I deployed the AWS CloudFormation templates.</p>
 </div>
 <div class="paragraph">
-<p><strong>A.</strong> We recommend that you launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template size limitations. For more information about AWS CloudFormation quotas, see the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS documentation</a>.</p>
+<p><strong>A.</strong> Launch the Quick Start templates from the links in this guide or from another Amazon S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template size limitations. For more information about AWS CloudFormation quotas, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS CloudFormation quotas</a>.</p>
+</div>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1924,11 +2086,8 @@ and to share your customizations with others.</p>
 <div class="paragraph">
 <p>© 2020, Amazon Web Services Inc., or its affiliates, and Cisco Systems Inc.. All rights reserved.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_notices">Notices</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_notices">Notices</h4>
 <div class="paragraph">
 <p>This document is provided for informational purposes only. It represents AWS’s current product offerings and practices as of the date of issue of this document, which are subject to change without notice. Customers are responsible for making their own independent assessment of the information in this document and any use of AWS’s products or services, each of which is provided “as is” without warranty of any kind, whether expressed or implied. This document does not create any warranties, representations, contractual commitments, conditions, or assurances from AWS, its affiliates, suppliers, or licensors. The responsibilities and liabilities of AWS to its customers are controlled by AWS agreements, and this document is not part of, nor does it modify, any agreement between AWS and its customers.</p>
 </div>
@@ -1938,9 +2097,10 @@ and to share your customizations with others.</p>
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-09-14 15:30:13 UTC
+Last updated 2020-09-14 17:51:28 UTC
 </div>
 </div>
 </body>
