@@ -2,7 +2,7 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-This Quick Start deploys {partner-product-name} on the AWS Cloud in high-availability mode with auto scaling in a matter of minutes. 
+This Quick Start deploys {partner-product-name} on the AWS Cloud in high-availability mode with scaling in a matter of minutes. 
 
 With {partner-product-name}, users can securely access internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can remotely connect (via SSH) to configured hosts through {partner-product-name} after installing Duo's connectivity tool, providing server access without a virtual private network (VPN).
 
