@@ -13,12 +13,9 @@ Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
       - Label:
-          default: Availability Zone Configuration
-        Parameters:
-          - AvailabilityZones
-      - Label:
           default: VPC Network Configuration
         Parameters:
+          - AvailabilityZones
           - VPCCIDR
           - PublicSubnet1CIDR
           - PublicSubnet2CIDR
@@ -72,21 +69,21 @@ Metadata:
       QSS3KeyPrefix:
         default: Quick Start S3 Key Prefix
       ACMSSLCertificateArn:
-        default: 'Amazon Resource Name (ARN) of the load balancer''s SSL certificate. If you don''t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.'
+        default: 'Amazon Resource Name (ARN) of the load balancer''s SSL certificate'
       AdminServerInstanceType:
         default: Admin Server EC2 instance type
       AdminServerRemoteAccessCIDR:
         default: Allowed CIDR block for external access to the load balancer
       AdminServerSubdomain:
-        default: 'Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then FQDN for admin server will be ''adminserver.corp.com'''
+        default: 'Subdomain for the Admin server'
       AuthToken:
         default: The Auth Token for the redis cluster
       ConfigYAMLPath:
         default: S3 bucket path of the Duo Network Gateway config file
       DomainName:
-        default: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
+        default: 'Fully qualified domain name for the Duo Network Gateway load balancer'
       HostedZoneID:
-        default: 'Route 53-hosted zone ID of the domain name. If you don''t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.'
+        default: 'Route 53-hosted zone ID of the domain name'
       KeyPairName:
         default: Name of an existing EC2 KeyPair.
       NumReplicas:
@@ -100,15 +97,15 @@ Metadata:
       PortalServerRemoteAccessCIDR:
         default: Allowed CIDR block for external access to the load balancer
       PortalServerSubdomain:
-        default: 'Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''portalserver'' and the DomainName parameter value is ''corp.com'', then FQDN for portal server will be ''portalserver.corp.com'''
+        default: 'Subdomain for the Portal server'
       RedisCacheNodeType:
         default: Enter one of the allowed values
       RedisEngineVersion:
         default: Redis replication group version
       SnapshotName:
-        default: Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
+        default: (Optional) Redis snapshot name
       SnapshotRetentionLimit:
-        default: The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).
+        default: Redis snapshot retention limit
 Parameters:
   ACMSSLCertificateArn:
     Default: ''
