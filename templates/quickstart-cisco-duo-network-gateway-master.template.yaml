@@ -163,7 +163,7 @@ Parameters:
     Type: String
   DomainName:
     Default: ''
-    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this parameter, you must also provide a corresponding HostedZoneID.'
+    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don''t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this parameter, you must also provide a corresponding HostedZoneID.'
     MaxLength: 128
     Type: String
   HostedZoneID:
