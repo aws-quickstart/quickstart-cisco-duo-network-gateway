@@ -2,8 +2,8 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   Cisco Systems Duo Network Gateway (New VPC). This template deploys Duo Network Gateway cluster 
-  into a new VPC with a Multi-AZ active-active autoscaling group using a Redis cluster for shared state.
-  Please see the Quick Start documentation for more details. **WARNING** You will
+  into a new VPC with a Multi-AZ active-active Auto Scaling group using a Redis cluster for shared state.
+  See the Quick Start documentation for more details. **WARNING** You will
   be billed for the On-Demand instances and related AWS resources if you
   create a stack from this template (qs-1qtp7fd31).
 Metadata:
@@ -13,7 +13,7 @@ Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
       - Label:
-          default: VPC Network Configuration
+          default: VPC network configuration
         Parameters:
           - AvailabilityZones
           - VPCCIDR
@@ -22,7 +22,7 @@ Metadata:
           - PrivateSubnet1CIDR
           - PrivateSubnet2CIDR
       - Label:
-          default: Duo Network Gateway Configuration
+          default: Duo Network Gateway configuration
         Parameters:
           - ACMSSLCertificateArn
           - AdminServerInstanceType
@@ -44,40 +44,40 @@ Metadata:
           - SnapshotName
           - SnapshotRetentionLimit
       - Label:
-          default: AWS Quick Start Configuration
+          default: AWS Quick Start configuration
         Parameters:
           - QSS3BucketName
           - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels: 
       AvailabilityZones:
-        default: Availability zones
+        default: Availability Zones
       VPCCIDR:
         default: VPC CIDR
       PublicSubnet1CIDR:
-        default: Public Subnet 1 CIDR for application load balancer
+        default: Public subnet 1 CIDR for application load balancer
       PublicSubnet2CIDR:
-        default: Public Subnet 2 CIDR for application load balancer
+        default: Public subnet 2 CIDR for application load balancer
       PrivateSubnet1CIDR:
         default: Private subnet 1 CIDR for Duo Network Gateway servers
       PrivateSubnet2CIDR:
         default: Private subnet 2 CIDR for Duo Network Gateway servers
       QSS3BucketName:
-        default: Quick Start S3 Bucket Name
+        default: Quick Start S3 bucket name
       QSS3BucketRegion:
-        default: Quick Start S3 bucket region
+        default: Quick Start S3 bucket Region
       QSS3KeyPrefix:
-        default: Quick Start S3 Key Prefix
+        default: Quick Start S3 key prefix
       ACMSSLCertificateArn:
-        default: 'Amazon Resource Name (ARN) of the load balancer''s SSL certificate'
+        default: 'ARN of the load balancer''s SSL certificate'
       AdminServerInstanceType:
-        default: Admin Server EC2 instance type
+        default: Admin server EC2 instance type
       AdminServerRemoteAccessCIDR:
         default: Allowed CIDR block for external access to the load balancer
       AdminServerSubdomain:
-        default: 'Subdomain for the Admin server'
+        default: 'Subdomain for the admin server'
       AuthToken:
-        default: The Auth Token for the redis cluster
+        default: Auth token for the Redis cluster
       ConfigYAMLPath:
         default: S3 bucket path of the Duo Network Gateway config file
       DomainName:
@@ -85,19 +85,19 @@ Metadata:
       HostedZoneID:
         default: 'Route 53-hosted zone ID of the domain name'
       KeyPairName:
-        default: Name of an existing EC2 KeyPair.
+        default: Name of an existing EC2 key pair
       NumReplicas:
-        default: Number of replicas per shard in redis replication group.
+        default: Number of replicas per shard 
       NumShards:
-        default: Number of shards in the cluster.
+        default: Number of shards in the cluster
       PortalServerInstanceType:
-        default: Portal Server EC2 instance type
+        default: Portal server EC2 instance type
       PortalServerName:
         default: The value used for the name tag of the portal server
       PortalServerRemoteAccessCIDR:
         default: Allowed CIDR block for external access to the load balancer
       PortalServerSubdomain:
-        default: 'Subdomain for the Portal server'
+        default: 'Subdomain for the portal server'
       RedisCacheNodeType:
         default: Enter one of the allowed values
       RedisEngineVersion:
@@ -131,24 +131,24 @@ Parameters:
       - r5.xlarge
       - r5.2xlarge
       - r5.4xlarge
-    ConstraintDescription: must be a valid EC2 instance type.
+    ConstraintDescription: Must be a valid EC2 instance type
     Default: t3.medium
-    Description: Admin Server EC2 instance type
+    Description: Admin server EC2 instance type
     Type: String
   AdminServerRemoteAccessCIDR:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
-    Description: The allowed CIDR block for remote access to the DNG Admin Server. It is imperative to restrict traffic on the admin server’s port 8443 to authorized network ranges only and not widely internet accessible. 
+    Description: The allowed CIDR block for remote access to the Duo Network Gateway admin server. Always restrict traffic on the admin server’s port 8443 to authorized network ranges only and not widely to the internet. 
     Type: String
   AdminServerSubdomain:
     Default: ''
-    Description: 'Subdomain for the Admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then FQDN for admin server will be ''adminserver.corp.com'''
+    Description: 'Sub-domain for the admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then the fully qualified domain name for the admin server will be ''adminserver.corp.com'''
     Type: String
   AuthToken:
     AllowedPattern: '[a-zA-Z0-9]*'
-    ConstraintDescription: 'Must be 16-128 characters including atleast three of uppercase, lowercase, nonalphanumeric, and digits'
+    ConstraintDescription: 'Must be 16-128 characters, including at least three of uppercase, lowercase, nonalphanumeric, and digits.'
     Default: DuoRedisAuthToken
-    Description: The Auth Token for the redis cluster
+    Description: The auth token for the Redis cluster.
     MaxLength: 128
     MinLength: 16
     NoEcho: true
@@ -158,12 +158,12 @@ Parameters:
     Type: 'List<AWS::EC2::AvailabilityZone::Name>'
   ConfigYAMLPath:
     Description: (Optional) S3 bucket path of the scripted configuration YAML file.
-                 (E.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
+                 (e.g. https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml)
     Default: ""
     Type: String
   DomainName:
     Default: ''
-    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you dont provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.'
+    Description: 'Fully qualified domain name for the Duo Network Gateway load balancer. If you don't provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this parameter, you must also provide a corresponding HostedZoneID.'
     MaxLength: 128
     Type: String
   HostedZoneID:
@@ -171,11 +171,11 @@ Parameters:
     Description: 'Route 53-hosted zone ID of the domain name. If you don''t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.'
     Type: String
   KeyPairName:
-    ConstraintDescription: Name of an existing EC2 KeyPair.
+    ConstraintDescription: Name of an existing EC2 key pair.
     Type: 'AWS::EC2::KeyPair::KeyName'
   NumReplicas:
     Default: 1
-    Description: Number of replicas per shard.
+    Description: Number of replicas per shard in the Redis replication group.
     MaxValue: 5
     MinValue: 0
     Type: Number
@@ -205,9 +205,9 @@ Parameters:
       - r5.2xlarge
       - r5.4xlarge
       - r5.8xlarge
-    ConstraintDescription: must be a valid EC2 instance type.
+    ConstraintDescription: Must be a valid EC2 instance type
     Default: t3.medium
-    Description: Portal Server EC2 instance type
+    Description: Portal server EC2 instance type
     Type: String
   PortalServerName:
     Default: PortalServer
@@ -220,31 +220,31 @@ Parameters:
     Type: String
   PortalServerSubdomain:
     Default: ''
-    Description: 'Subdomain for the Portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. Example, if the provided value is ''portalserver'' and the DomainName parameter value is ''corp.com'', then FQDN for portal server will be ''portalserver.corp.com'''
+    Description: 'Subdomain for the portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as suffix. For example, if the provided value is ''portalserver'' and the DomainName parameter value is ''corp.com'', then the fully qualified domain name for the portal server will be ''portalserver.corp.com'''
     Type: String
   PrivateSubnet1CIDR:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.0.0/19
-    Description: CIDR block for private subnet 1 located in Availability Zone 1
+    Description: CIDR block for private subnet 1 located in Availability Zone 1.
     Type: String
   PrivateSubnet2CIDR:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.32.0/19
-    Description: CIDR block for private subnet 2 located in Availability Zone 2
+    Description: CIDR block for private subnet 2 located in Availability Zone 2.
     Type: String
   PublicSubnet1CIDR:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.128.0/20
-    Description: CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1
+    Description: CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1.
     Type: String
   PublicSubnet2CIDR:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.144.0/20
-    Description: CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2
+    Description: CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2.
     Type: String
   QSS3BucketName:
     AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
@@ -275,21 +275,21 @@ Parameters:
       - cache.t3.small
       - cache.t3.medium
     Default: cache.t3.medium
-    Description: Enter one of the allowed values
+    Description: Provide an allowed value.
     Type: String
   RedisEngineVersion:
     AllowedValues:
       - 3.2.6
     Default: 3.2.6
-    Description: Redis replication group version
+    Description: Redis replication group version.
     Type: String
   SnapshotName:
     Default: ''
-    Description: Optional name of a snapshot from which you want to restore (leave blank to create an empty cache).
+    Description: (Optional) Name of a snapshot from which you want to restore (leave blank to create an empty cache).
     Type: String
   SnapshotRetentionLimit:
     Default: 35
-    Description: The number of days for which ElastiCache retains automatic redis snapshots before deleting them (set to 0 to disable backups).
+    Description: The number of days that Amazon ElastiCache retains automatic Redis snapshots before deleting them (set to 0 to disable backups).
     MaxValue: 35
     MinValue: 0
     Type: Number
@@ -297,7 +297,7 @@ Parameters:
     AllowedPattern: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$'
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.0.0/16
-    Description: CIDR block for the VPC
+    Description: CIDR block for the VPC.
     Type: String
 Conditions:
   UsingDefaultBucket: !Equals 
@@ -394,13 +394,13 @@ Resources:
         
 Outputs:
   AdminServerWebURL:
-    Description: "The Admin server web server URL"
+    Description: "The admin server web server URL."
     Value:
       Fn::GetAtt:
       - WorkloadStack
       - Outputs.AdminServerWebURL
   PortalServerWebURL:
-    Description: "The Portal server web server URL"
+    Description: "The portal server web server UR.L"
     Value:
       Fn::GetAtt:
       - WorkloadStack
