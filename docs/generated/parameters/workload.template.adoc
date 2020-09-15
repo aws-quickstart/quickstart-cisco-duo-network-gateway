@@ -28,8 +28,8 @@
 (`PortalServerInstanceType`)|`t3.medium`|Portal server EC2 instance type.|Name tag of portal server
 (`PortalServerName`)|`PortalServer`|The value used for the name tag of the portal server.|Allowed CIDR block for external access to load balancer
 (`PortalServerRemoteAccessCIDR`)|`**__Requires input__**`|Allowed CIDR block for external access to the load balancer.|Subdomain for portal server
-(`PortalServerSubdomain`)|`**__Blank string__**`|Subdomain for the portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the portal server will be 'portalserver.corp.com'.|Enter one of the allowed values
-(`RedisCacheNodeType`)|`cache.t3.medium`|Enter one of the allowed values.|Redis replication group version
+(`PortalServerSubdomain`)|`**__Blank string__**`|Subdomain for the portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the portal server will be 'portalserver.corp.com'.|Type of Redis cache node
+(`RedisCacheNodeType`)|`cache.t3.medium`|Choose a value for the type of Redis Cache node.|Redis replication group version
 (`RedisEngineVersion`)|`3.2.6`|Redis replication group version.|(Optional) Redis snapshot name
 (`SnapshotName`)|`**__Blank string__**`|(Optional) Name of a snapshot from which you want to restore (leave blank to create an empty cache).|Redis snapshot retention limit
 (`SnapshotRetentionLimit`)|`35`|Number of days that Amazon ElastiCache retains automatic Redis snapshots before deleting them (set to 0 to disable backups).
