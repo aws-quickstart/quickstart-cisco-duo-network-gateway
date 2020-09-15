@@ -99,7 +99,7 @@ Metadata:
       PortalServerSubdomain:
         default: 'Subdomain for the portal server'
       RedisCacheNodeType:
-        default: Enter one of the allowed values
+        default: Type of Redis cache node
       RedisEngineVersion:
         default: Redis replication group version
       SnapshotName:
@@ -275,7 +275,7 @@ Parameters:
       - cache.t3.small
       - cache.t3.medium
     Default: cache.t3.medium
-    Description: Provide an allowed value.
+    Description: Choose a value for the type of Redis Cache node.
     Type: String
   RedisEngineVersion:
     AllowedValues:
