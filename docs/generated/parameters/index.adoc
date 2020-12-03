@@ -1,6 +1,6 @@
 
-=== Launch into an existing VPC
-include::workload.template.adoc[]
-
 === Launch into a new VPC
 include::quickstart-cisco-duo-network-gateway-master.template.adoc[]
+
+=== Launch into an existing VPC
+include::workload.template.adoc[]
