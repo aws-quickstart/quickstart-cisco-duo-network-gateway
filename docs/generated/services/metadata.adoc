@@ -21,6 +21,7 @@
 :template_aws_route53_recordset:
 :template_cloudformation:
 :template_cloudwatch:
+:template_deterministic_ec2_instances:
 :template_ec2:
 :template_elasticache:
 :template_elasticloadbalancingv2:

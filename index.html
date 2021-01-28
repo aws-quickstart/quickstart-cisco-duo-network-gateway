@@ -805,8 +805,8 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel2">
 <li><a href="#_sign_in_to_your_aws_account">Sign in to your AWS account</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
-<li><a href="#_launch_into_an_existing_vpc">Launch into an existing VPC</a></li>
 <li><a href="#_launch_into_a_new_vpc">Launch into a new VPC</a></li>
+<li><a href="#_launch_into_an_existing_vpc">Launch into an existing VPC</a></li>
 </ul>
 </li>
 <li><a href="#_post_deployment_steps">Post deployment steps</a></li>
@@ -1271,231 +1271,9 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </div>
 </div>
 <div class="sect2">
-<h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. VPC Network configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
-(<code>VPCCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC
-(<code>VPCID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID for application load balancer
-(<code>PublicSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID for application load balancer
-(<code>PublicSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID for Duo Network Gateway servers
-(<code>PrivateSubnet1ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 that you want to provision the admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID for Duo Network Gateway servers
-(<code>PrivateSubnet2ID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 2 that you want to provision the admin and portal servers into (e.g., subnet-a0234dcs).</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Duo Network Gateway configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the load balancer&#8217;s SSL certificate
-(<code>ACMSSLCertificateArn</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Admin server EC2 instance type
-(<code>AdminServerInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Admin server EC2 instance type.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the load balancer
-(<code>AdminServerRemoteAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The allowed CIDR block for remote access to the Duo Network Gateway admin server. Always restrict traffic on the admin server’s port 8443 to authorized network ranges only, not widely to the internet.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the admin server
-(<code>AdminServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the admin server will be 'adminserver.corp.com'.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Auth token for the Redis cluster
-(<code>AuthToken</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DuoRedisAuthToken</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The auth token for the Redis cluster.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket path of the Duo Network Gateway config file
-(<code>ConfigYAMLPath</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) S3 bucket path of the scripted configuration YAML file. (e.g. <a href="https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml" class="bare">https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml</a>).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer
-(<code>DomainName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name
-(<code>HostedZoneID</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair
-(<code>KeyPairName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NO_DESCRIPTION</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of replicas per shard in Redis replication group
-(<code>NumReplicas</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of replicas per shard.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of shards in the cluster
-(<code>NumShards</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of shards in the cluster.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Portal server EC2 instance type
-(<code>PortalServerInstanceType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Portal server EC2 instance type.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name tag of portal server
-(<code>PortalServerName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PortalServer</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The value used for the name tag of the portal server.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to load balancer
-(<code>PortalServerRemoteAccessCIDR</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the load balancer.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for portal server
-(<code>PortalServerSubdomain</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the portal server will be 'portalserver.corp.com'.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type of Redis cache node
-(<code>RedisCacheNodeType</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Choose a value for the type of Redis Cache node.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Redis replication group version
-(<code>RedisEngineVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.2.6</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Redis replication group version.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Redis snapshot name
-(<code>SnapshotName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Name of a snapshot from which you want to restore (leave blank to create an empty cache).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Redis snapshot retention limit
-(<code>SnapshotRetentionLimit</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>35</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number of days that Amazon ElastiCache retains automatic Redis snapshots before deleting them (set to 0 to disable backups).</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. AWS Quick Start configuration</caption>
-<colgroup>
-<col style="width: 16%;">
-<col style="width: 11%;">
-<col style="width: 73%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter label (name)</th>
-<th class="tableblock halign-left valign-top">Default value</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
-(<code>QSS3BucketName</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
-(<code>QSS3BucketRegion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
-(<code>QSS3KeyPrefix</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-cisco-duo-network-gateway/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
 <h3 id="_launch_into_a_new_vpc">Launch into a new VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. VPC network configuration</caption>
+<caption class="title">Table 1. VPC network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1548,7 +1326,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Duo Network Gateway configuration</caption>
+<caption class="title">Table 2. Duo Network Gateway configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1675,6 +1453,228 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 (<code>SnapshotRetentionLimit</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>35</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The number of days that Amazon ElastiCache retains automatic Redis snapshots before deleting them (set to 0 to disable backups).</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. AWS Quick Start configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
+(<code>QSS3BucketName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
+(<code>QSS3BucketRegion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
+(<code>QSS3KeyPrefix</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-cisco-duo-network-gateway/</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_launch_into_an_existing_vpc">Launch into an existing VPC</h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. VPC Network configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
+(<code>VPCCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for the VPC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC
+(<code>VPCID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 ID for application load balancer
+(<code>PublicSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 ID for application load balancer
+(<code>PublicSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the public subnet 1 that you want to provision the load balancers of admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 ID for Duo Network Gateway servers
+(<code>PrivateSubnet1ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 that you want to provision the admin and portal servers into (e.g., subnet-a0246dcd).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 ID for Duo Network Gateway servers
+(<code>PrivateSubnet2ID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 2 that you want to provision the admin and portal servers into (e.g., subnet-a0234dcs).</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Duo Network Gateway configuration</caption>
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 11%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter label (name)</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ARN of the load balancer&#8217;s SSL certificate
+(<code>ACMSSLCertificateArn</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon Resource Name (ARN) of the load balancer&#8217;s SSL certificate. If you don&#8217;t provide values for DomainName and HostedZoneID, provide a value for ACMSSLCertificateArn.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Admin server EC2 instance type
+(<code>AdminServerInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Admin server EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the load balancer
+(<code>AdminServerRemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The allowed CIDR block for remote access to the Duo Network Gateway admin server. Always restrict traffic on the admin server’s port 8443 to authorized network ranges only, not widely to the internet.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the admin server
+(<code>AdminServerSubdomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'adminserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the admin server will be 'adminserver.corp.com'.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Auth token for the Redis cluster
+(<code>AuthToken</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DuoRedisAuthToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The auth token for the Redis cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket path of the Duo Network Gateway config file
+(<code>ConfigYAMLPath</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) S3 bucket path of the scripted configuration YAML file. (e.g. <a href="https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml" class="bare">https://duoconfigbucket.s3.amazonaws.com/scripts/config/dng_config.yml</a>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer
+(<code>DomainName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name for the Duo Network Gateway load balancer. If you don&#8217;t provide a value for ACMSSLCertificateArn, use the HostedZoneID. If you provide a value for this, you must also provide a corresponding HostedZoneID.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name
+(<code>HostedZoneID</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Route 53-hosted zone ID of the domain name. If you don&#8217;t provide an ACMSSLCertificateArn value, the Quick Start creates the ACM certificate for you using HostedZoneID in conjunction with DomainName. This HostedZoneID should be for the corresponding DomainName parameter value.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of an existing EC2 key pair
+(<code>KeyPairName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO_DESCRIPTION</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of replicas per shard in Redis replication group
+(<code>NumReplicas</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of replicas per shard.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of shards in the cluster
+(<code>NumShards</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of shards in the cluster.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portal server EC2 instance type
+(<code>PortalServerInstanceType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Portal server EC2 instance type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name tag of portal server
+(<code>PortalServerName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PortalServer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The value used for the name tag of the portal server.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to load balancer
+(<code>PortalServerRemoteAccessCIDR</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the load balancer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for portal server
+(<code>PortalServerSubdomain</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subdomain for the portal server. Fully qualified domain name for the portal server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is 'portalserver' and the DomainName parameter value is 'corp.com', then the fully qualified domain name for the portal server will be 'portalserver.corp.com'.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of Redis cache node
+(<code>RedisCacheNodeType</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cache.t3.medium</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Choose a value for the type of Redis Cache node.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Redis replication group version
+(<code>RedisEngineVersion</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3.2.6</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Redis replication group version.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Redis snapshot name
+(<code>SnapshotName</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) Name of a snapshot from which you want to restore (leave blank to create an empty cache).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Redis snapshot retention limit
+(<code>SnapshotRetentionLimit</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>35</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of days that Amazon ElastiCache retains automatic Redis snapshots before deleting them (set to 0 to disable backups).</p></td>
 </tr>
 </tbody>
 </table>
