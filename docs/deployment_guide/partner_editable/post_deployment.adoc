@@ -1,3 +1,33 @@
 // Include any postdeployment steps here, such as steps necessary to test that the deployment was successful. If there are no postdeployment steps, leave this file empty.
 
 == Postdeployment steps
+
+After the Partner Solution has been successfully created, you can interact with {partner-product-name} from a web browser. Perform the following steps:
+
+. In a browser, navigate to https://<URL-of-the-network-gateway-load-balancer>:8443 from a network in the 'AdminServerRemoteAccessCIDR' subnet, and log in to the {partner-product-name} admin console. Your browser warns you about an untrusted certificate the first time you access the page. Dismiss the warning and continue to the page. 
+. On the first page of the {partner-product-name} configuration screen, choose a password for the {partner-product-name} admin console. After entering a password that meets the requirements, choose *Save* and *Continue*.
++
+image::../docs/deployment_guide/images/set_dng_password.png[set_dng_password,width=439,height=648]
+
+[start=3]
+. On the *Make {partner-product-name} visible to the internet* page, either fill in the fields, as shown in the following image, or choose the *Already have a {partner-product-name} configuration file? Import it now* link to import a configuration file.
++
+image::../docs/deployment_guide/images/dng_config.png[dng_config,width=239,height=648]
+
+Note the following recommendations when filling in the fields:
+
+* As this Partner Solution uses load balancers that present SSL security to end users, you can use a certificate for the connection between the load balance and {partner-product-name}. There are two options for providing this certificate:
+** If you want to provide your own SSL certificate for {partner-product-name}, choose *Change Certificate* and select *Provide my own certificate*. 
+** If you want to use self-signed certificates for the {partner-product-name} server, choose the *Present a self-signed certificate to incoming connections* option.
+* After selecting the *This {partner-product-name} is accessed through load balancers* check box, specify the internal IP addresses of your {partner-product-name} portal server load balancer, which you can locate in the *Outputs* section of the Partner Solution. This setting makes the {partner-product-name} aware of the load balancer IP addresses, which allows the source client IP addresses to log information, apply allowed IP restrictions, and pass IP addresses to protected applications.
+* Be sure to provide complete and accurate information on this page to avoid errors with the initial configuration. If an error occurs, you will need to re-enter the information again before proceeding, including selecting the certificate and key. 
+* When you choose *Save and Continue*, you are redirected to the {partner-product-name} admin console, where you can add a SAML authentication source and configure {partner-product-name} to proxy the applications for adding Duo policies. 
++
+image::../docs/deployment_guide/images/welcome.png[welcome,width=439,height=648]
+
+For additional information, access the https://duo.com/docs/dng#configure-the-duo-network-gateway-authentication-source[Duo documentation^].
+
+== Security
+// Provide post-deployment best practices for using the technology on AWS, including considerations such as migrating data, backups, ensuring high performance, high availability, etc. Link to software documentation for detailed information.
+
+The Partner Solution exposes two user-configurable security group access parameters: 'AdminServerRemoteAccessCIDR' and 'PortalServerRemoteAccessCIDR'. Be sure that the 'AdminServerRemoteAccessCIDR' parameter 'is accessible only on authorized network ranges for both ports 22 and 8443, not widely accessible on the internet.

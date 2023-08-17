@@ -1,7 +1,7 @@
 This guide covers the information you need to deploy the {partner-product-name} Partner Solution in the AWS Cloud.
 
 // Fill in the info in <angle brackets> for use on the landing page only: 
-This Amazon Web Services (AWS) Partner Solution deploys [<product name>](<partner's marketing product page>) in the AWS Cloud so that <purpose>. This solution is for <target users> who want to <do what> so that <why>. For more information, refer to the [<product name> documentation](<URL>).
+This Amazon Web Services (AWS) Partner Solution deploys https://duo.com/docs/dng[{partner-product-name}^] in the AWS Cloud. With {partner-product-name}, users can securely access internal web applications from any device, using any browser, from anywhere in the world, without having to install or configure remote access software on their device. Users can remotely connect (via SSH) to configured hosts through {partner-product-name} after installing Duo's connectivity tool, providing server access without a virtual private network (VPN). This solution is for mulitple audiences, including IT architects, network administrators, DevOps professionals, and Duo instance owners who are planning to implement or extend their {partner-product-name} deployment on the AWS Cloud. For more information, refer to the https://duo.com/docs/dng[{partner-product-name} documentation^].
 
 // Deploying this solution does not guarantee an organization’s compliance with any laws, certifications, policies, or other regulations. [Uncomment this statement only for solutions that relate to compliance. We'll add the corresponding reference part to the landing page and get legal approval before publishing.]
 

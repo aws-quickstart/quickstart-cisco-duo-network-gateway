@@ -1,3 +1,19 @@
 //Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
 
 == Predeployment steps
+
+This Partner Solution assumes that the user has:
+
+1. A registered domain name e.g. _mycompany.com_ that is registered externally or via AWS Route53.
+
+2. A public hosted zone created in AWS Route53. In order to route internet traffic for a domain, AWS Route53 requires a public hosted zone to be created as a secondary step for either an external or AWS Route53 registered domain name.
+ 
+Once the public hosted zone is created, the Partner Solution provides 2 deployment parameter options to the user:
+ 
+*Option1:*
+
+The user specifies the public hosted zone ID and subdomain names for the Duo Network Gateway admin and portal server load balancers as input parameters to the Partner Solution template. With this option, the Partner Solution subsequently generates tls certificates (in AWS ACM) and then creates resource records for the load balancer in the public hosted zone.
+ 
+*Option 2:*
+
+The user leaves the public hosted zone ID and subdomain parameters blank, but instead specifies the ARN(s) of certificates (either created by or imported in ACM) as input parameters to the Partner Solution template. In this option, the Partner Solution assumes that the user will manually provision the certificates and the resource record sets in the public hosted zone. The certificate ARN is used by the Partner Solution when creating the load balancer listeners.

@@ -1,3 +1,5 @@
 // Include details about any licenses and how to sign up. Provide links as appropriate.
 
-There is no cost to use this Partner Solution, but you will be billed for any AWS services or resources that this Partner Solution deploys. For more information, refer to the https://fwd.aws/rA69w?[AWS Partner Solution General Information Guide^].
+This Partner Solution requires a license for Duo Beyond. If you do not currently have a license for Duo Beyond, you can get a trial license at https://signup.duo.com/
+ 
+The trial license of Duo Beyond gives you 30 days of free usage. After this time, you can upgrade to a production license by purchasing a subscription license of Duo Beyond.
