@@ -145,7 +145,7 @@ Parameters:
     Description: 'Sub-domain for the admin server. Fully qualified domain name for the admin server will be created by adding the DomainName parameter value as a suffix. For example, if the provided value is ''adminserver'' and the DomainName parameter value is ''corp.com'', then the fully qualified domain name for the admin server will be ''adminserver.corp.com'''
     Type: String
   AuthToken:
-    AllowedPattern: '[a-zA-Z0-9]*'
+    AllowedPattern: '^(?=(.*[^A-Za-z0-9]){3,})(?=(.*[A-Z]){3,})(?=(.*\d){3,})(?=(.*[a-z]){3,}).{16,128}$'
     ConstraintDescription: 'Must be 16-128 characters, including at least three of uppercase, lowercase, nonalphanumeric, and digits.'
     Default: DuoRedisAuthToken
     Description: The auth token for the Redis cluster.
@@ -279,8 +279,8 @@ Parameters:
     Type: String
   RedisEngineVersion:
     AllowedValues:
-      - 3.2.6
-    Default: 3.2.6
+      - 5.0.6
+    Default: 5.0.6
     Description: Redis replication group version.
     Type: String
   SnapshotName:
