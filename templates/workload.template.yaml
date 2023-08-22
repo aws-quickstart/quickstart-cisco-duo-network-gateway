@@ -147,7 +147,7 @@ Parameters:
   AuthToken:
     AllowedPattern: '^(?=(.*[^A-Za-z0-9]){3,})(?=(.*[A-Z]){3,})(?=(.*\d){3,})(?=(.*[a-z]){3,}).{16,128}$'
     ConstraintDescription: 'Must be 16-128 characters, including at least three of uppercase, lowercase, nonalphanumeric, and digits.'
-    Default: DuoRedisAuthToken
+    Default: DuoRedisAuthToken123!@#
     Description: The auth token for the Redis cluster.
     MaxLength: 128
     MinLength: 16
