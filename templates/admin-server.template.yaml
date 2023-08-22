@@ -359,11 +359,11 @@ Resources:
           - Action:
               - 'ec2:AssociateAddress'
               - 'ec2:DescribeAddresses'
-            Resource: '*'
+            Resource: !Sub "arn:${AWS::Partition}:*"
             Effect: Allow
           - Action:
               - 's3:GetObject'
-            Resource: '*'
+            Resource: !Sub "arn:${AWS::Partition}:*"
             Effect: Allow
       Roles: 
         - !Ref AdminServerInstanceRole
