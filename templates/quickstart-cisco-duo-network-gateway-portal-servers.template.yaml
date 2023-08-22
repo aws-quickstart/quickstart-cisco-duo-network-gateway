@@ -261,7 +261,7 @@ Resources:
         config-portal-server:
           commands:
             1_download_portal_server_image:
-              command: wget --content-disposition https://dl.duosecurity.com/network-gateway-ha-latest.yml
+              command: wget --content-disposition https://dl.duosecurity.com/network-gateway-latest-ha.yml
               cwd: "~"
             2_install_portal_server_image: 
               command: docker-compose -p network-gateway -f $(ls network-gateway*) up -d
