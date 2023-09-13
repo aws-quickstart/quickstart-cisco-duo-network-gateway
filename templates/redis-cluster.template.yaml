@@ -64,7 +64,7 @@ Resources:
       AuthToken: !Ref RedisAuth
       AutomaticFailoverEnabled: true
       CacheNodeType: !Ref RedisCacheNodeType
-      CacheParameterGroupName: 'default.redis3.2'
+      CacheParameterGroupName: 'default.redis5.0'
       CacheSubnetGroupName: !Ref CacheSubnetGroupName
       NumNodeGroups: !Ref NumShards
       ReplicasPerNodeGroup: !Ref NumReplicas
