@@ -20,7 +20,9 @@ Parameters:
   RedisAuth: 
     Description: The Auth Token for the redis cluster
     Type: String
-    ConstraintDescription: Must be 16-128 characters including atleast three of uppercase, lowercase, nonalphanumeric, and digits
+    ConstraintDescription: 'Must be 16-128 only printable ASCII characters, including at least three of uppercase, lowercase and digits. Nonalphanumeric characters are restricted to (!, &, #, $, ^, <, >, -, ).'
+    Default: DuoRedisAuthToken123
+    NoEcho: true
   RedisCacheNodeType:
     Type: String
     Description: Enter one of the allowed values
