@@ -221,7 +221,7 @@ Resources:
         config-admin-server:
           commands:
             1_download_admin_server_image:
-              command: wget --content-disposition https://dl.duosecurity.com/network-gateway-admin-ha-latest.yml
+              command: wget --content-disposition https://dl.duosecurity.com/network-gateway-latest-ha.admin.yml
               cwd: "~"
             2_install_portal_server_image: 
               command: docker-compose -p network-gateway -f $(ls network-gateway-*-ha.admin.yml) up -d
@@ -359,11 +359,7 @@ Resources:
           - Action:
               - 'ec2:AssociateAddress'
               - 'ec2:DescribeAddresses'
-            Resource: '*'
-            Effect: Allow
-          - Action:
-              - 's3:GetObject'
-            Resource: '*'
+            Resource: !Sub "arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*"
             Effect: Allow
       Roles: 
         - !Ref AdminServerInstanceRole
