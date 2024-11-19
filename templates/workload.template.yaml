@@ -73,7 +73,7 @@ Metadata:
       AdminServerInstanceType:
         default: Admin server EC2 instance type
       AdminServerRemoteAccessCIDR:
-        default: Allowed CIDR block for external access to the load balancer
+        default: Allowed CIDR block for external access to the admin interface
       AdminServerSubdomain:
         default: 'Subdomain for the admin server'
       AuthToken:
